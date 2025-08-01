@@ -14,7 +14,8 @@ const getProjectData = async (slug: string) => {
   return project;
 };
 
-export default async function EditProjectPage({ params }: { params: { slug: string } }) {
+export default async function EditProjectPage({ params }: { params: { slug: string; [key: string]: string | string[] } }
+) {
   const supabase = createServerComponentClient({ cookies });
   const { data: { user } } = await supabase.auth.getUser();
 
