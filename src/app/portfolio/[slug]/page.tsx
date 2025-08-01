@@ -4,23 +4,16 @@ import { createServerComponentClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
-// --- Definicje typów ---
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
-
-// Definiujemy typ danych dla pojedynczego projektu
+// --- Typ projektu ---
 interface Project {
   id: number;
   title: string;
   introduction: string;
   slug: string;
-  // ... reszta pól, które mogą być w obiekcie projektu
+  // ...inne pola
 }
 
-// --- Funkcje serwerowe do pobierania danych ---
+// --- Pobieranie projektu i sąsiadów ---
 const getProjectWithNavigation = async (slug: string) => {
   const supabase = createServerComponentClient({ cookies });
 
@@ -56,10 +49,10 @@ const getProjectWithNavigation = async (slug: string) => {
   return { currentProject, nextProject, prevProject };
 };
 
-// --- Funkcja generująca metadane (SEO) ---
-// @ts-expect-error
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { currentProject } = await getProjectWithNavigation(params.slug);
+// --- SEO / Metadata ---
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await props.params;
+  const { currentProject } = await getProjectWithNavigation(slug);
 
   if (!currentProject) {
     return { title: "Nie znaleziono projektu" };
@@ -71,14 +64,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-// --- Główny komponent strony ---
-// @ts-expect-error
-export default async function ProjectPage({ params }: PageProps) {
-  const { currentProject, nextProject, prevProject } = await getProjectWithNavigation(params.slug);
+// --- Strona ---
+export default async function ProjectPage(props: { params: Promise<{ slug: string }> }) {
+  const { slug } = await props.params;
+  const { currentProject, nextProject, prevProject } = await getProjectWithNavigation(slug);
 
   if (!currentProject) {
     notFound();
   }
 
-  return <ProjectClientPage project={currentProject} nextProject={nextProject} prevProject={prevProject} />;
+  return (
+    <ProjectClientPage
+      project={currentProject}
+      nextProject={nextProject}
+      prevProject={prevProject}
+    />
+  );
 }
