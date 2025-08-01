@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, NextPageContext } from "next";
 import ProjectClientPage from "./ProjectClientPage";
 import { createServerComponentClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 // --- Definicje typów ---
-// Tworzymy alias typu dla propsów strony, aby uniknąć konfliktu.
-type Props = {
+// Używamy standardowego typu dla propsów strony
+interface PageProps {
   params: {
     slug: string;
   };
-};
+}
 
 // Definiujemy typ danych dla pojedynczego projektu
 interface Project {
@@ -55,7 +55,7 @@ const getProjectWithNavigation = async (slug: string) => {
     : null;
 
   // Ustalanie projektu poprzedniego w kolejności
-    const prevProject = currentIndex > 0
+  const prevProject = currentIndex > 0
     ? allProjects[currentIndex - 1]
     : null;
 
@@ -63,7 +63,7 @@ const getProjectWithNavigation = async (slug: string) => {
 };
 
 // --- Funkcja generująca metadane (SEO) ---
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { currentProject } = await getProjectWithNavigation(params.slug);
 
   if (!currentProject) {
@@ -77,7 +77,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 // --- Główny komponent strony ---
-export default async function ProjectPage({ params }: Props) {
+export default async function ProjectPage({ params }: PageProps) {
   const { currentProject, nextProject, prevProject } = await getProjectWithNavigation(params.slug);
 
   // Jeśli projekt nie istnieje, zwróć błąd "Not Found"
