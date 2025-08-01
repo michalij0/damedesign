@@ -14,15 +14,7 @@ const getProjectData = async (slug: string) => {
   return project;
 };
 
-// Definiujemy własny typ propsów strony
-type Props = {
-  params: {
-    slug: string;
-    [key: string]: string | string[];
-  };
-};
-
-export default async function EditProjectPage({ params }: Props) {
+export default async function EditProjectPage({ params }: any) {
   const supabase = createServerComponentClient({ cookies });
   const { data: { user } } = await supabase.auth.getUser();
 
