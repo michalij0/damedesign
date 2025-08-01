@@ -5,8 +5,14 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 // --- Definicje typów ---
-// Tym razem unikamy definiowania osobnego typu PageProps, aby
-// uniknąć konfliktu z typami generowanymi przez Next.js.
+// Tworzymy alias typu dla propsów strony, aby uniknąć konfliktu.
+type Props = {
+  params: {
+    slug: string;
+  };
+};
+
+// Definiujemy typ danych dla pojedynczego projektu
 interface Project {
   id: number;
   title: string;
@@ -57,8 +63,8 @@ const getProjectWithNavigation = async (slug: string) => {
 };
 
 // --- Funkcja generująca metadane (SEO) ---
-// Typy są zdefiniowane inline, bez użycia PageProps
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+// Używamy nowo zdefiniowanego typu Props
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { currentProject } = await getProjectWithNavigation(params.slug);
 
   if (!currentProject) {
@@ -72,8 +78,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 // --- Główny komponent strony ---
-// Typy są zdefiniowane inline, bez użycia PageProps
-export default async function ProjectPage({ params }: { params: { slug: string } }) {
+// Używamy nowo zdefiniowanego typu Props
+export default async function ProjectPage({ params }: Props) {
   const { currentProject, nextProject, prevProject } = await getProjectWithNavigation(params.slug);
 
   // Jeśli projekt nie istnieje, zwróć błąd "Not Found"
