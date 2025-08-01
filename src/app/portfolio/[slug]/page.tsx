@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 // --- Definicje typów ---
-// Używamy standardowego typu dla propsów strony
 interface PageProps {
   params: {
     slug: string;
@@ -25,7 +24,6 @@ interface Project {
 const getProjectWithNavigation = async (slug: string) => {
   const supabase = createServerComponentClient({ cookies });
 
-  // Pobieranie wszystkich projektów, aby ustalić nawigację (następny/poprzedni)
   const { data: allProjects } = await supabase
     .from("projects")
     .select("id, title, slug")
@@ -35,7 +33,6 @@ const getProjectWithNavigation = async (slug: string) => {
     return { currentProject: null, nextProject: null, prevProject: null };
   }
 
-  // Pobieranie szczegółów bieżącego projektu na podstawie slug
   const { data: currentProject } = await supabase
     .from("projects")
     .select("*")
@@ -46,15 +43,12 @@ const getProjectWithNavigation = async (slug: string) => {
     return { currentProject: null, nextProject: null, prevProject: null };
   }
 
-  // Znajdowanie indeksu bieżącego projektu w tablicy wszystkich projektów
   const currentIndex = allProjects.findIndex((p) => p.id === currentProject.id);
 
-  // Ustalanie projektu następnego w kolejności
   const nextProject = currentIndex > -1 && currentIndex < allProjects.length - 1
     ? allProjects[currentIndex + 1]
     : null;
 
-  // Ustalanie projektu poprzedniego w kolejności
   const prevProject = currentIndex > 0
     ? allProjects[currentIndex - 1]
     : null;
@@ -63,7 +57,7 @@ const getProjectWithNavigation = async (slug: string) => {
 };
 
 // --- Funkcja generująca metadane (SEO) ---
-// @ts-ignore
+// @ts-expect-error
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { currentProject } = await getProjectWithNavigation(params.slug);
 
@@ -78,15 +72,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 // --- Główny komponent strony ---
-// @ts-ignore
+// @ts-expect-error
 export default async function ProjectPage({ params }: PageProps) {
   const { currentProject, nextProject, prevProject } = await getProjectWithNavigation(params.slug);
 
-  // Jeśli projekt nie istnieje, zwróć błąd "Not Found"
   if (!currentProject) {
     notFound();
   }
 
-  // Renderuj komponent klienta z danymi projektu
   return <ProjectClientPage project={currentProject} nextProject={nextProject} prevProject={prevProject} />;
 }
