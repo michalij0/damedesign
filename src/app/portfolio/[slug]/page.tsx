@@ -5,15 +5,8 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 // --- Definicje typów ---
-// Definiujemy typ dla dynamicznych parametrów strony.
-// To kluczowa zmiana, która rozwiązuje błąd na Vercel.
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-// Definiujemy typ danych dla pojedynczego projektu
+// Tym razem unikamy definiowania osobnego typu PageProps, aby
+// uniknąć konfliktu z typami generowanymi przez Next.js.
 interface Project {
   id: number;
   title: string;
@@ -64,8 +57,8 @@ const getProjectWithNavigation = async (slug: string) => {
 };
 
 // --- Funkcja generująca metadane (SEO) ---
-// Używamy zdefiniowanego typu PageProps
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+// Typy są zdefiniowane inline, bez użycia PageProps
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const { currentProject } = await getProjectWithNavigation(params.slug);
 
   if (!currentProject) {
@@ -79,8 +72,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 // --- Główny komponent strony ---
-// Używamy zdefiniowanego typu PageProps
-export default async function ProjectPage({ params }: PageProps) {
+// Typy są zdefiniowane inline, bez użycia PageProps
+export default async function ProjectPage({ params }: { params: { slug: string } }) {
   const { currentProject, nextProject, prevProject } = await getProjectWithNavigation(params.slug);
 
   // Jeśli projekt nie istnieje, zwróć błąd "Not Found"
@@ -91,4 +84,3 @@ export default async function ProjectPage({ params }: PageProps) {
   // Renderuj komponent klienta z danymi projektu
   return <ProjectClientPage project={currentProject} nextProject={nextProject} prevProject={prevProject} />;
 }
-
