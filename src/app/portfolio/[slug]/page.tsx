@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ProjectClientPage from "./ProjectClientPage";
-import { createServerComponentClient } from "@supabase/ssr";import { createServerComponentClient } from "@supabase/ssr";
+import { createServerComponentClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
@@ -55,7 +55,7 @@ const getProjectWithNavigation = async (slug: string) => {
     : null;
 
   // Ustalanie projektu poprzedniego w kolejności
-  const prevProject = currentIndex > 0
+    const prevProject = currentIndex > 0
     ? allProjects[currentIndex - 1]
     : null;
 
@@ -63,9 +63,6 @@ const getProjectWithNavigation = async (slug: string) => {
 };
 
 // --- Funkcja generująca metadane (SEO) ---
-// Kompilator Vercel błędnie interpretuje typ PageProps, więc używamy
-// @ts-expect-error, aby go zignorować.
-// @ts-expect-error
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { currentProject } = await getProjectWithNavigation(params.slug);
 
@@ -80,9 +77,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 // --- Główny komponent strony ---
-// Kompilator Vercel błędnie interpretuje typ PageProps, więc używamy
-// @ts-expect-error, aby go zignorować.
-// @ts-expect-error
 export default async function ProjectPage({ params }: Props) {
   const { currentProject, nextProject, prevProject } = await getProjectWithNavigation(params.slug);
 
