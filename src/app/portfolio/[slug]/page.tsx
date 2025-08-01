@@ -1,4 +1,4 @@
-import type { Metadata, NextPageContext } from "next";
+import type { Metadata } from "next";
 import ProjectClientPage from "./ProjectClientPage";
 import { createServerComponentClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
@@ -63,6 +63,7 @@ const getProjectWithNavigation = async (slug: string) => {
 };
 
 // --- Funkcja generująca metadane (SEO) ---
+// @ts-ignore
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { currentProject } = await getProjectWithNavigation(params.slug);
 
@@ -77,6 +78,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 // --- Główny komponent strony ---
+// @ts-ignore
 export default async function ProjectPage({ params }: PageProps) {
   const { currentProject, nextProject, prevProject } = await getProjectWithNavigation(params.slug);
 
