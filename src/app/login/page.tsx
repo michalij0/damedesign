@@ -1,6 +1,6 @@
 "use client";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@supabase/ssr";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -15,7 +15,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const { addNotification } = useNotification();
 
   useEffect(() => {

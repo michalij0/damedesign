@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, PlusCircle, Pencil, Trash2 } from "lucide-react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@supabase/ssr";
 import { useEffect, useState, useMemo } from "react";
 import type { User } from "@supabase/supabase-js";
 import { useNotification } from "@/context/NotificationProvider";
@@ -32,7 +32,7 @@ export default function PortfolioPage() {
   const [sortMode, setSortMode] = useState("newest");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const { addNotification } = useNotification();
   const router = useRouter();
 

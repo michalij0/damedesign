@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Pencil, Trash2, PlusCircle } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@supabase/ssr";
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
@@ -77,24 +77,35 @@ export default function FaqSection() {
   const [loading, setLoading] = useState(true);
   const [itemToDelete, setItemToDelete] = useState<FaqItem | null>(null);
 
-  const supabase = createClientComponentClient();
   const { addNotification } = useNotification();
 
   useEffect(() => {
+    // KLUCZOWA ZMIANA: Tworzenie klienta Supabase wewnątrz useEffect
+    const supabase = createClient();
+    
     const fetchData = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-
-      const { data } = await supabase.from("faq_items").select("*").order("created_at", { ascending: true });
-      setFaqItems(data || []);
-      setLoading(false);
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        setUser(user);
+  
+        const { data } = await supabase.from("faq_items").select("*").order("created_at", { ascending: true });
+        setFaqItems(data || []);
+      } catch (error) {
+        console.error("Błąd pobierania danych: ", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData();
-  }, [supabase]);
+  }, []);
 
   const handleDelete = async () => {
     if (!itemToDelete) return;
+    
+    // Klient Supabase musi być również dostępny do tej funkcji, tworzymy go lokalnie
+    const supabase = createClient();
     const { error } = await supabase.from("faq_items").delete().eq("id", itemToDelete.id);
+    
     if (error) {
       addNotification(`Błąd: ${error.message}`, "error");
     } else {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@supabase/ssr";
 import { useRouter } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
@@ -21,7 +21,7 @@ export default function NewTestimonialPage() {
   const [avatarUrl, setAvatarUrl] = useState("");
 
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const { addNotification } = useNotification();
 
   useEffect(() => {

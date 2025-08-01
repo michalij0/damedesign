@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@supabase/ssr";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, UploadCloud } from "lucide-react";
@@ -43,7 +43,7 @@ export default function EditProjectForm({ project }: { project: Project }) {
   const [content, setContent] = useState(project.content);
 
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const { addNotification } = useNotification();
   
   const createSlug = (title: string) => {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ProjectClientPage from "./ProjectClientPage";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createServerComponentClient } from "@supabase/ssr";import { createServerComponentClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 

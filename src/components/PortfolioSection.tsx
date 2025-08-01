@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@supabase/ssr";
 import type { User } from "@supabase/supabase-js";
 
 // Definiujemy typ danych, które przychodzą z Supabase
@@ -20,27 +20,38 @@ export default function PortfolioSection() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
-  const supabase = createClientComponentClient();
 
   useEffect(() => {
+    // Klient Supabase musi być tworzony wewnątrz useEffect dla Client Components
+    const supabase = createClient();
+
     const fetchData = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        setUser(user);
 
-      const { data, error } = await supabase
-        .from("projects")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(5);
+        const { data, error } = await supabase
+          .from("projects")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(5);
 
-      if (data) {
-        setProjects(data);
+        if (error) {
+          throw error;
+        }
+
+        if (data) {
+          setProjects(data);
+        }
+      } catch (err) {
+        console.error("Błąd podczas pobierania danych: ", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchData();
-  }, [supabase]);
+  }, []);
 
   // Inteligentne duplikowanie projektów, aby karuzela zawsze była pełna
   const MIN_CAROUSEL_ITEMS = 6;

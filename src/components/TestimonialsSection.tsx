@@ -3,7 +3,7 @@
 import Image from "next/image";
 import AnimatedSection from "./AnimatedSection";
 import { useState, useEffect } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@supabase/ssr";
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { Pencil, Trash2, PlusCircle } from "lucide-react";
@@ -24,24 +24,33 @@ export default function TestimonialsSection() {
   const [loading, setLoading] = useState(true);
   const [testimonialToDelete, setTestimonialToDelete] = useState<Testimonial | null>(null);
 
-  const supabase = createClientComponentClient();
   const { addNotification } = useNotification();
 
   useEffect(() => {
+    // KLUCZOWA ZMIANA: Tworzenie klienta Supabase wewnątrz useEffect
+    const supabase = createClient();
+    
     const fetchData = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-
-      const { data } = await supabase.from("testimonials").select("*").order("created_at", { ascending: false });
-      setTestimonials(data || []);
-      setLoading(false);
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        setUser(user);
+  
+        const { data } = await supabase.from("testimonials").select("*").order("created_at", { ascending: false });
+        setTestimonials(data || []);
+      } catch (error) {
+        console.error("Błąd pobierania danych: ", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData();
-  }, [supabase]);
+  }, []);
 
   const handleDelete = async () => {
     if (!testimonialToDelete) return;
 
+    // Klient Supabase musi być również dostępny do tej funkcji, tworzymy go lokalnie
+    const supabase = createClient();
     const { error } = await supabase.from("testimonials").delete().eq("id", testimonialToDelete.id);
 
     if (error) {
@@ -56,7 +65,7 @@ export default function TestimonialsSection() {
   // Inteligentne duplikowanie opinii, aby karuzela zawsze była pełna
   const MIN_CAROUSEL_ITEMS = 4;
   let carouselTestimonials = [...testimonials];
-  while (carouselTestimonials.length > 0 && carouselTestimonials.length < MIN_CAROUSEL_ITEMS) {
+  while (carouselTestimonials.length > 0 && carouselTestimonials.length < MIN_CAROUSEEL_ITEMS) {
     carouselTestimonials = [...carouselTestimonials, ...testimonials];
   }
 
