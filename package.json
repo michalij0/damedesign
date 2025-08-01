@@ -23,10 +23,10 @@
     "framer-motion": "^12.23.11",
     "geist": "^1.4.2",
     "lucide-react": "^0.534.0",
-    "next": "15.4.4",
+    "next": "^15.4.5",
     "next-cloudinary": "^6.16.0",
-    "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
