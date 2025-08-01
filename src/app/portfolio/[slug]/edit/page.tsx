@@ -10,12 +10,19 @@ const getProjectData = async (slug: string) => {
     .select("*")
     .eq("slug", slug)
     .single();
-  
+
   return project;
 };
 
-export default async function EditProjectPage({ params }: { params: { slug: string; [key: string]: string | string[] } }
-) {
+// Definiujemy własny typ propsów strony
+type Props = {
+  params: {
+    slug: string;
+    [key: string]: string | string[];
+  };
+};
+
+export default async function EditProjectPage({ params }: Props) {
   const supabase = createServerComponentClient({ cookies });
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -28,6 +35,6 @@ export default async function EditProjectPage({ params }: { params: { slug: stri
   if (!project) {
     notFound();
   }
-  
+
   return <EditProjectForm project={project} />;
 }
