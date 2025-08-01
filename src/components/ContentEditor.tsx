@@ -144,7 +144,13 @@ const TiptapEditor = ({ content, onChange }: { content: string; onChange: (richT
         <Tooltip text="Wyrównaj do prawej"><button type="button" onClick={() => editor.chain().focus().setTextAlign('right').run()} className={`p-2 rounded ${editor.isActive({ textAlign: 'right' }) ? 'bg-accent text-black' : 'hover:bg-neutral-800'}`}><AlignRight size={16} /></button></Tooltip>
         <div className="w-px h-6 bg-neutral-700 mx-2" />
         <Tooltip text="Cytat"><button type="button" onClick={() => editor.chain().focus().toggleBlockquote().run()} className={`p-2 rounded ${editor.isActive('blockquote') ? 'bg-accent text-black' : 'hover:bg-neutral-800'}`}><Quote size={16} /></button></Tooltip>
-        <CldUploadWidget uploadPreset="ml_default" onSuccess={(result: any) => addImage(result.info?.secure_url || "")}>
+        <CldUploadWidget
+  uploadPreset="ml_default"
+  onSuccess={(result) => {
+    const typedResult = result as { info?: { secure_url?: string } };
+    addImage(typedResult.info?.secure_url || "");
+  }}
+>
             {({ open }) => <Tooltip text="Wstaw obrazek"><button type="button" onClick={() => open()} className="p-2 rounded hover:bg-neutral-800"><ImageIcon size={16} /></button></Tooltip>}
         </CldUploadWidget>
         <Tooltip text="Wstaw wideo YouTube"><button type="button" onClick={() => openUrlModal('youtube', url => editor.chain().focus().setYoutubeVideo({ src: url }).run())} className={`p-2 rounded ${editor.isActive('youtube') ? 'bg-accent text-black' : 'hover:bg-neutral-800'}`}><YoutubeIcon size={16} /></button></Tooltip>

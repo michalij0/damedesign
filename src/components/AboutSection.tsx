@@ -45,7 +45,7 @@ export default function AboutSection() {
       <section id="o-mnie" className="py-24 bg-black">
         <div className="mx-auto max-w-7xl px-6 text-center">
           <h3 className="text-xl font-bold text-neutral-400">
-            Sekcja "O mnie" jest pusta.
+            Sekcja &quot;O mnie&quot; jest pusta.
           </h3>
           {user && (
             <p className="text-neutral-500 mt-2">

@@ -115,7 +115,7 @@ export default function TestimonialsSection() {
                               {testimonial.name}
                             </cite>
                           </footer>
-                          <p>"{testimonial.text}"</p>
+                          <p>&quot;{testimonial.text}&quot;</p>
                         </blockquote>
                       </li>
                     ))}
@@ -125,7 +125,7 @@ export default function TestimonialsSection() {
                 <div className="h-full flex items-center justify-center text-center border border-dashed border-neutral-800 rounded-xl">
                   <div>
                     <h3 className="text-xl font-bold text-neutral-400">Brak opinii do wyświetlenia.</h3>
-                    {user && <p className="text-neutral-500 mt-2">Kliknij "+", aby dodać pierwszą.</p>}
+                    {user && <p className="text-neutral-500 mt-2">Kliknij &quot;+&quot;, aby dodać pierwszą.</p>}
                   </div>
                 </div>
               )}

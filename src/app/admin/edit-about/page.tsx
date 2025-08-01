@@ -91,7 +91,7 @@ export default function EditAboutPage() {
           <span>Wróć na stronę główną</span>
         </Link>
 
-        <h1 className="text-4xl font-bold font-mona-sans mb-2">Edytuj sekcję "O mnie"</h1>
+        <h1 className="text-4xl font-bold font-mona-sans mb-2">Edytuj sekcję &quot;O mnie&quot;</h1>
         <p className="text-neutral-400 mb-12">Zmień dane i zapisz, aby zaktualizować stronę główną.</p>
 
         <form onSubmit={handleSubmit} className="space-y-8">

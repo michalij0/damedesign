@@ -138,7 +138,7 @@ export default function FaqSection() {
               ) : (
                 <div className="text-center py-16 border border-dashed border-neutral-800 rounded-xl">
                   <h3 className="text-xl font-bold text-neutral-400">Brak pytań do wyświetlenia.</h3>
-                  {user && <p className="text-neutral-500 mt-2">Kliknij "+", aby dodać pierwsze.</p>}
+                  {user && <p className="text-neutral-500 mt-2">Kliknij &quot;+&quot;, aby dodać pierwsze.</p>}
                 </div>
               )}
             </div>

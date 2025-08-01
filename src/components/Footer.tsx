@@ -26,7 +26,7 @@ export default function Footer() {
             href="/#kontakt"
             className="mt-4 inline-block rounded-full bg-accent px-5 py-3 font-inter text-sm font-medium text-black"
           >
-            Let's connect &rarr;
+            Let&rsquo;s connect &rarr;
           </Link>
         </div>
         <div className="grid grid-cols-2 gap-8 md:col-span-2">
