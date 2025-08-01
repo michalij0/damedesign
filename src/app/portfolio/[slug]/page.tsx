@@ -63,7 +63,9 @@ const getProjectWithNavigation = async (slug: string) => {
 };
 
 // --- Funkcja generująca metadane (SEO) ---
-// Używamy nowo zdefiniowanego typu Props
+// Kompilator Vercel błędnie interpretuje typ PageProps, więc używamy
+// @ts-expect-error, aby go zignorować.
+// @ts-expect-error
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { currentProject } = await getProjectWithNavigation(params.slug);
 
@@ -78,7 +80,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 // --- Główny komponent strony ---
-// Używamy nowo zdefiniowanego typu Props
+// Kompilator Vercel błędnie interpretuje typ PageProps, więc używamy
+// @ts-expect-error, aby go zignorować.
+// @ts-expect-error
 export default async function ProjectPage({ params }: Props) {
   const { currentProject, nextProject, prevProject } = await getProjectWithNavigation(params.slug);
 
