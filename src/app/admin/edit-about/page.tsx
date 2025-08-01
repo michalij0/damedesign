@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClient } from "@supabase/ssr";
+import { createBrowserClient } from "@supabase/ssr";
 import { useRouter } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
@@ -23,7 +23,7 @@ export default function EditAboutPage() {
   const [formData, setFormData] = useState<Partial<AboutData>>({});
 
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = createBrowserClient(); // POPRAWKA TU
   const { addNotification } = useNotification();
 
   useEffect(() => {
@@ -97,24 +97,58 @@ export default function EditAboutPage() {
         <form onSubmit={handleSubmit} className="space-y-8">
           <div>
             <label htmlFor="heading" className="block text-sm font-medium text-neutral-300 mb-2">Nagłówek</label>
-            <input type="text" id="heading" name="heading" value={formData.heading || ''} onChange={handleInputChange} required className="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-4 py-3 text-white" />
+            <input
+              type="text"
+              id="heading"
+              name="heading"
+              value={formData.heading || ''}
+              onChange={handleInputChange}
+              required
+              className="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-4 py-3 text-white"
+            />
           </div>
+
           <div>
             <label htmlFor="description" className="block text-sm font-medium text-neutral-300 mb-2">Opis</label>
-            <textarea id="description" name="description" rows={8} value={formData.description || ''} onChange={handleInputChange} required className="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-4 py-3 text-white"></textarea>
+            <textarea
+              id="description"
+              name="description"
+              rows={8}
+              value={formData.description || ''}
+              onChange={handleInputChange}
+              required
+              className="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-4 py-3 text-white"
+            />
           </div>
+
           <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-2">Twoje zdjęcie (hero.png)</label>
-              <CldUploadWidget uploadPreset="ml_default" onSuccess={handleUploadSuccess('image_url')}>
-                {({ open }) => (
-                  <button type="button" onClick={() => open()} className="w-full h-48 border-2 border-dashed border-neutral-700 rounded-lg flex flex-col items-center justify-center text-neutral-500 hover:border-accent hover:text-accent transition-colors">
-                    {formData.image_url ? <CldImage src={formData.image_url} alt="Twoje zdjęcie" width={150} height={150} className="max-h-full w-auto" /> : ( <> <UploadCloud size={32} /> <span>Kliknij, aby wgrać</span> </> )}
-                  </button>
-                )}
-              </CldUploadWidget>
-            </div>
+            <label className="block text-sm font-medium text-neutral-300 mb-2">Twoje zdjęcie (hero.png)</label>
+            <CldUploadWidget uploadPreset="ml_default" onSuccess={handleUploadSuccess('image_url')}>
+              {({ open }) => (
+                <button
+                  type="button"
+                  onClick={() => open()}
+                  className="w-full h-48 border-2 border-dashed border-neutral-700 rounded-lg flex flex-col items-center justify-center text-neutral-500 hover:border-accent hover:text-accent transition-colors"
+                >
+                  {formData.image_url ? (
+                    <CldImage src={formData.image_url} alt="Twoje zdjęcie" width={150} height={150} className="max-h-full w-auto" />
+                  ) : (
+                    <>
+                      <UploadCloud size={32} />
+                      <span>Kliknij, aby wgrać</span>
+                    </>
+                  )}
+                </button>
+              )}
+            </CldUploadWidget>
+          </div>
+
           <div className="flex justify-end pt-4">
-            <button type="submit" disabled={isSubmitting} className="bg-accent text-black font-bold px-8 py-3 rounded-lg hover:bg-accent-muted transition-colors disabled:bg-neutral-600">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-accent text-black font-bold px-8 py-3 rounded-lg hover:bg-accent-muted transition-colors disabled:bg-neutral-600"
+            >
               {isSubmitting ? "Zapisywanie..." : "Zapisz zmiany"}
             </button>
           </div>
