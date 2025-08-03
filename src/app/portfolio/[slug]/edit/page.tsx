@@ -1,10 +1,9 @@
-import { createClient } from "@/utils/supabase/server"; // Poprawiony import
-import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
 import { notFound, redirect } from "next/navigation";
 import EditProjectForm from "@/components/EditProjectForm";
 
 const getProjectData = async (slug: string) => {
-  const supabase = createClient(); // Używamy naszej nowej funkcji
+  const supabase = createClient();
   const { data: project } = await supabase
     .from("projects")
     .select("*")
@@ -19,7 +18,7 @@ export default async function EditProjectPage({
 }: {
   params: { slug: string };
 }) {
-  const supabase = createClient(); // Używamy naszej nowej funkcji
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

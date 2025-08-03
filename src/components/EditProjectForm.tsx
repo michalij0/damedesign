@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client"; // Poprawiony import
+import { useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { ArrowLeft, UploadCloud } from "lucide-react";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
@@ -16,35 +15,35 @@ const ContentEditor = dynamic(() => import("@/components/ContentEditor"), {
   loading: () => <div className="w-full min-h-[300px] bg-neutral-900 border border-neutral-700 rounded-lg flex items-center justify-center text-neutral-500">Ładowanie edytora...</div>,
 });
 
-// Definiujemy typ danych projektu
+// ---> ZMIANA 1: Definiujemy typ, dopuszczając `null` dla pól, które mogą być puste w bazie
 interface Project {
   id: number;
   title: string;
-  tags: string;
-  category: string;
-  year: string;
-  introduction: string;
-  thumbnail_url: string;
-  main_image_url: string;
-  content: string;
+  tags: string | null;
+  category: string | null;
+  year: string | null;
+  introduction: string | null;
+  thumbnail_url: string | null;
+  main_image_url: string | null;
+  content: string | null;
   slug: string;
 }
 
 export default function EditProjectForm({ project }: { project: Project }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Pola formularza
-  const [title, setTitle] = useState(project.title);
-  const [tags, setTags] = useState(project.tags.replace(/ • /g, ', ')); // Konwertuj z powrotem na przecinki
-  const [category, setCategory] = useState(project.category);
-  const [year, setYear] = useState(project.year);
-  const [introduction, setIntroduction] = useState(project.introduction);
-  const [thumbnailUrl, setThumbnailUrl] = useState(project.thumbnail_url);
-  const [mainImageUrl, setMainImageUrl] = useState(project.main_image_url);
-  const [content, setContent] = useState(project.content);
+  // ---> ZMIANA 2: Przy inicjalizacji stanu, zamieniamy ewentualny `null` na pusty string `''`
+  const [title, setTitle] = useState(project.title || '');
+  const [tags, setTags] = useState((project.tags || '').replace(/ • /g, ', ')); 
+  const [category, setCategory] = useState(project.category || '');
+  const [year, setYear] = useState(project.year || '');
+  const [introduction, setIntroduction] = useState(project.introduction || '');
+  const [thumbnailUrl, setThumbnailUrl] = useState(project.thumbnail_url || '');
+  const [mainImageUrl, setMainImageUrl] = useState(project.main_image_url || '');
+  const [content, setContent] = useState(project.content || '');
 
   const router = useRouter();
-  const supabase = createClient(); // Używamy naszej nowej funkcji
+  const supabase = createClient();
   const { addNotification } = useNotification();
   
   const createSlug = (title: string) => {
