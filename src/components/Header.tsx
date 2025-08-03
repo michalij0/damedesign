@@ -43,12 +43,13 @@ export default function Header() {
 
     if (pathname === "/") {
       window.addEventListener("scroll", handleScroll);
-      handleScroll();
+      handleScroll(); // Uruchom raz na początku
       return () => window.removeEventListener("scroll", handleScroll);
     } else {
       setActiveSection(pathname);
       const handleSimpleScroll = () => setScrolled(window.scrollY > 10);
       window.addEventListener("scroll", handleSimpleScroll);
+      handleSimpleScroll(); // Uruchom raz na początku
       return () => window.removeEventListener("scroll", handleSimpleScroll);
     }
   }, [pathname]);
@@ -87,16 +88,21 @@ export default function Header() {
           scrolled || isMenuOpen ? "bg-black/50 backdrop-blur-lg" : "bg-transparent"
         }`}
       >
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between">
-          <Link href="/" onClick={handleLogoClick}>
-            <Image
-              src="/img/logo.svg"
-              alt="DameDesign Logo"
-              width={140}
-              height={40}
-              className="h-8 w-auto"
-            />
-          </Link>
+        {/* ---> ZMIANA: Usunęliśmy `justify-between` i dodaliśmy `gap-6` dla odstępów */}
+        <div className="mx-auto flex w-full max-w-7xl items-center gap-6">
+          {/* ---> ZMIANA: Owinęliśmy logo w div z klasą `mr-auto`, aby wypchnąć resztę na prawo */}
+          <div className="mr-auto">
+            <Link href="/" onClick={handleLogoClick}>
+              <Image
+                src="/img/logo.svg"
+                alt="DameDesign Logo"
+                width={140}
+                height={40}
+                className="h-8 w-auto"
+              />
+            </Link>
+          </div>
+          
           {/* Nawigacja na desktop (ukryta poniżej 768px) */}
           <nav className="hidden md:block">
             <ul className="flex items-center gap-8 font-inter">
@@ -116,6 +122,7 @@ export default function Header() {
               ))}
             </ul>
           </nav>
+
           {/* Przycisk menu mobilnego (widoczny poniżej 768px) */}
           <div className="md:hidden">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white z-40 relative">
