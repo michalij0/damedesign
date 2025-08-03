@@ -8,7 +8,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useNotification } from "@/context/NotificationProvider";
 import Link from "next/link";
 import { CldUploadWidget } from "next-cloudinary";
-import type { CldUploadWidgetResults } from "next-cloudinary";
+import type { CloudinaryUploadWidgetResults } from "next-cloudinary";
 
 export default function ContactSection() {
   const [files, setFiles] = useState<{ name: string, url: string }[]>([]);
@@ -24,9 +24,13 @@ export default function ContactSection() {
     setFiles(files.filter((file) => file.name !== fileName));
   };
   
-  const handleUploadSuccess = (results: CldUploadWidgetResults) => {
+  const handleUploadSuccess = (results: CloudinaryUploadWidgetResults) => {
     if (results.info && typeof results.info === 'object' && 'secure_url' in results.info) {
-      setFiles(prev => [...prev, { name: (results.info as any).original_filename || 'załącznik', url: results.info.secure_url }]);
+      // ---> POCZĄTEK POPRAWKI <---
+      // Tworzymy lokalną stałą, aby TypeScript był pewien, że `info` istnieje.
+      const info = results.info;
+      setFiles(prev => [...prev, { name: (info as any).original_filename || 'załącznik', url: info.secure_url }]);
+      // ---> KONIEC POPRAWKI <---
     }
     setIsUploading(false);
   };
