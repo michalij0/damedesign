@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Providers } from "./providers"; // Importujemy Providers
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "DameDesign",
@@ -17,8 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl">
-      <body className={GeistSans.className}>
-        {/* Opakowujemy całą zawartość w Providers */}
+      {/* ---> ZMIANA: Dodajemy domyślne tło i kolor tekstu, aby uniknąć "błysku" */}
+      <body className={`${GeistSans.className} bg-black text-neutral-200`}>
         <Providers>
           {children}
         </Providers>

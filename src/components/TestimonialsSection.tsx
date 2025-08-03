@@ -33,7 +33,7 @@ export default function TestimonialsSection() {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         setUser(user);
-  
+    
         const { data } = await supabase.from("testimonials").select("*").order("created_at", { ascending: false });
         setTestimonials(data || []);
       } catch (error) {
@@ -74,13 +74,22 @@ export default function TestimonialsSection() {
   return (
     <>
       <AnimatedSection>
-        <section id="testimonials" className="py-24">
-          <div className="mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
+        {/* ---> POCZĄTEK ZMIANY: Dodajemy tło, overlay i pozycjonowanie do sekcji */}
+        <section 
+          id="testimonials" 
+          className="relative py-24 bg-cover bg-center"
+          style={{ backgroundImage: "url('/img/bg_testim.png')" }}
+        >
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+          <div className="relative mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
+        {/* ---> KONIEC ZMIANY <--- */}
+
             <div className="lg:col-span-1">
               <div className="flex items-center gap-4">
                 <div>
                   <p className="text-accent text-lg">Kilka słów</p>
-                  <h2 className="text-5xl font-bold font-druk-wide leading-tight">
+                  {/* ---> ZMIANA: Dodajemy klasę `text-white` do nagłówka */}
+                  <h2 className="text-5xl font-bold font-druk-wide leading-tight text-white">
                     Od klientów
                   </h2>
                 </div>
