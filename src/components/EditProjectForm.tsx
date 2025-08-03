@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClient } from "@supabase/ssr";
+import { createClient } from "@/utils/supabase/client"; // Poprawiony import
 import { useRouter } from "next/navigation";
+import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { ArrowLeft, UploadCloud } from "lucide-react";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
@@ -43,7 +44,7 @@ export default function EditProjectForm({ project }: { project: Project }) {
   const [content, setContent] = useState(project.content);
 
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = createClient(); // Używamy naszej nowej funkcji
   const { addNotification } = useNotification();
   
   const createSlug = (title: string) => {

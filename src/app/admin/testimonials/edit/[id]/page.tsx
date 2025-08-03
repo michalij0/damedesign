@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClient } from "@supabase/ssr";
+import { createClient } from "@/utils/supabase/server";
 import { useRouter, useParams } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";

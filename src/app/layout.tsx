@@ -1,10 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { fontGeist, fontInter } from "./fonts";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Preloader from "@/components/Preloader";
-import { NotificationProvider } from "@/context/NotificationProvider";
+import { createClient } from "@/utils/supabase/server";
+import MainLayout from "@/components/MainLayout";
 
 export const metadata: Metadata = {
   title: "DameDesign - Projekty Graficzne",
@@ -20,11 +18,22 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const { data: settings } = await supabase
+    .from("site_settings")
+    .select("is_maintenance_mode")
+    .single();
+
+  const isMaintenanceMode = settings?.is_maintenance_mode || false;
+
   return (
     <html lang="pl">
       <head>
@@ -36,13 +45,9 @@ export default function RootLayout({
       <body
         className={`${fontGeist.variable} ${fontInter.variable} bg-black font-sans text-white`}
       >
-        <NotificationProvider>
-          <Preloader />
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </NotificationProvider>
-        <div id="portal-root"></div> {/* To jest kluczowe dla popupów */}
+        <MainLayout serverUser={user} isMaintenanceMode={isMaintenanceMode}>
+          {children}
+        </MainLayout>
       </body>
     </html>
   );

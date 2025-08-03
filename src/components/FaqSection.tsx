@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Pencil, Trash2, PlusCircle } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
-import { createClient } from "@supabase/ssr";
+import { createClient } from "@/utils/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import { useNotification } from "@/context/NotificationProvider";
+import Head from "next/head";
 
 interface FaqItem {
   id: number;
@@ -32,7 +33,7 @@ const AccordionItem = ({
   return (
     <div className="border-b border-neutral-800 py-6 group/item relative">
       {user && (
-        <div className="absolute top-6 right-0 flex items-center gap-2 opacity-0 group-hover/item:opacity-100 transition-opacity">
+        <div className="absolute top-6 right-10 flex items-center gap-2 opacity-0 group-hover/item:opacity-100 transition-opacity z-10">
           <Link href={`/admin/faq/edit/${item.id}`} className="p-2 bg-neutral-800/80 rounded-full text-white hover:bg-accent hover:text-black transition-colors">
             <Pencil size={14} />
           </Link>
@@ -45,10 +46,11 @@ const AccordionItem = ({
         onClick={onClick}
         className="w-full flex justify-between items-center text-left"
       >
-        <span className="text-lg font-medium text-white pr-12">{item.question}</span>
+        <span className="text-lg font-medium text-white pr-24">{item.question}</span>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
+          className="flex-shrink-0"
         >
           <ChevronDown className="text-neutral-500" />
         </motion.div>
@@ -62,7 +64,7 @@ const AccordionItem = ({
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <p className="pt-4 text-neutral-400">{item.answer}</p>
+            <p className="pt-4 text-neutral-400 pr-8">{item.answer}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -77,12 +79,10 @@ export default function FaqSection() {
   const [loading, setLoading] = useState(true);
   const [itemToDelete, setItemToDelete] = useState<FaqItem | null>(null);
 
+  const supabase = createClient();
   const { addNotification } = useNotification();
 
   useEffect(() => {
-    // KLUCZOWA ZMIANA: Tworzenie klienta Supabase wewnątrz useEffect
-    const supabase = createClient();
-    
     const fetchData = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -97,13 +97,11 @@ export default function FaqSection() {
       }
     };
     fetchData();
-  }, []);
+  }, [supabase]);
 
   const handleDelete = async () => {
     if (!itemToDelete) return;
     
-    // Klient Supabase musi być również dostępny do tej funkcji, tworzymy go lokalnie
-    const supabase = createClient();
     const { error } = await supabase.from("faq_items").delete().eq("id", itemToDelete.id);
     
     if (error) {
@@ -115,12 +113,35 @@ export default function FaqSection() {
     setItemToDelete(null);
   };
 
+  // Generowanie danych strukturalnych JSON-LD dla FAQ
+  const generateFaqJsonLd = () => {
+    if (faqItems.length === 0) return null;
+    return {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.answer
+        }
+      }))
+    };
+  };
+
   if (loading) {
     return <section id="faq" className="py-24 bg-black" />;
   }
 
   return (
     <>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFaqJsonLd()) }}
+        />
+      </Head>
       <AnimatedSection>
         <section id="faq" className="py-24">
           <div className="mx-auto max-w-7xl px-6">
@@ -149,7 +170,7 @@ export default function FaqSection() {
               ) : (
                 <div className="text-center py-16 border border-dashed border-neutral-800 rounded-xl">
                   <h3 className="text-xl font-bold text-neutral-400">Brak pytań do wyświetlenia.</h3>
-                  {user && <p className="text-neutral-500 mt-2">Kliknij &quot;+&quot;, aby dodać pierwsze.</p>}
+                  {user && <p className="text-neutral-500 mt-2">Kliknij "+", aby dodać pierwsze.</p>}
                 </div>
               )}
             </div>

@@ -20,11 +20,13 @@
     "@tiptap/extension-youtube": "^3.0.7",
     "@tiptap/react": "^3.0.7",
     "@tiptap/starter-kit": "^3.0.7",
+    "@types/nprogress": "^0.2.3",
     "framer-motion": "^12.23.11",
     "geist": "^1.4.2",
     "lucide-react": "^0.534.0",
     "next": "^15.4.5",
     "next-cloudinary": "^6.16.0",
+    "nprogress": "^0.2.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

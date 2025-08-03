@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, PlusCircle, Pencil, Trash2 } from "lucide-react";
-import { createClient } from "@supabase/ssr";
+import { ArrowRight, PlusCircle, Pencil, Trash2, X } from "lucide-react";
+import { createClient } from "@/utils/supabase/client"; // Poprawiony import
 import { useEffect, useState, useMemo } from "react";
 import type { User } from "@supabase/supabase-js";
 import { useNotification } from "@/context/NotificationProvider";
@@ -32,7 +32,7 @@ export default function PortfolioPage() {
   const [sortMode, setSortMode] = useState("newest");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const supabase = createClient();
+  const supabase = createClient(); // Używamy naszej nowej funkcji
   const { addNotification } = useNotification();
   const router = useRouter();
 

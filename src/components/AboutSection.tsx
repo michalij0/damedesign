@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
 import Image from "next/image";
 import AnimatedSection from "./AnimatedSection";
 import { useState, useEffect } from "react";
-import { createClient } from "@supabase/ssr";
+import { createClient } from "@/utils/supabase/client"; // Poprawiony import
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
@@ -20,13 +20,12 @@ export default function AboutSection() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Klient Supabase powinien być tworzony wewnątrz useEffect, aby uniknąć błędów
-    // związanych z SSR i cyklem życia komponentu.
-    const supabase = createClient();
+    const supabase = createClient(); // Używamy naszej nowej funkcji
 
     const fetchData = async () => {
-      // Używamy await, aby upewnić się, że pobieranie użytkownika zakończyło się
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       setUser(user);
 
       const { data } = await supabase
@@ -38,7 +37,7 @@ export default function AboutSection() {
       setLoading(false);
     };
     fetchData();
-  }, []); // Pusta tablica zależności, ponieważ supabase nie jest zależnością.
+  }, []);
 
   if (loading) {
     return <section id="o-mnie" className="py-24 bg-black" />;
@@ -86,14 +85,19 @@ export default function AboutSection() {
                   {aboutData.heading}
                 </h2>
                 {user && (
-                  <Link href="/admin/edit-about" className="p-2 bg-neutral-800/80 backdrop-blur-sm rounded-full text-white hover:bg-accent hover:text-black transition-colors flex-shrink-0">
+                  <Link
+                    href="/admin/edit-about"
+                    className="p-2 bg-neutral-800/80 backdrop-blur-sm rounded-full text-white hover:bg-accent hover:text-black transition-colors flex-shrink-0"
+                  >
                     <Pencil size={16} />
                   </Link>
                 )}
               </div>
               <div
                 className="space-y-4 text-lg text-neutral-300"
-                dangerouslySetInnerHTML={{ __html: aboutData.description.replace(/\n/g, '<br />') }}
+                dangerouslySetInnerHTML={{
+                  __html: aboutData.description.replace(/\n/g, "<br />"),
+                }}
               />
             </div>
           </div>

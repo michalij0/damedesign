@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
-import { createClient } from "@supabase/ssr";
+import { createClient } from "@/utils/supabase/client"; // Poprawiony import
 import type { User } from "@supabase/supabase-js";
 
 // Definiujemy typ danych, które przychodzą z Supabase
@@ -20,11 +20,9 @@ export default function PortfolioSection() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
+  const supabase = createClient(); // Używamy naszej nowej funkcji
 
   useEffect(() => {
-    // Klient Supabase musi być tworzony wewnątrz useEffect dla Client Components
-    const supabase = createClient();
-
     const fetchData = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -51,7 +49,7 @@ export default function PortfolioSection() {
     };
 
     fetchData();
-  }, []);
+  }, [supabase]);
 
   // Inteligentne duplikowanie projektów, aby karuzela zawsze była pełna
   const MIN_CAROUSEL_ITEMS = 6;

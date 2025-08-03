@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import ProjectClientPage from "./ProjectClientPage";
-import { createServerComponentClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server"; // Poprawiony import
 import { notFound } from "next/navigation";
 
-// --- Typ projektu ---
+// Definiujemy typ danych dla projektu
 interface Project {
   id: number;
   title: string;
@@ -15,7 +14,7 @@ interface Project {
 
 // --- Pobieranie projektu i sąsiadów ---
 const getProjectWithNavigation = async (slug: string) => {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createClient(); // Używamy naszej nowej funkcji
 
   const { data: allProjects } = await supabase
     .from("projects")
@@ -50,8 +49,8 @@ const getProjectWithNavigation = async (slug: string) => {
 };
 
 // --- SEO / Metadata ---
-export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await props.params;
+export async function generateMetadata(props: { params: { slug: string } }): Promise<Metadata> {
+  const { slug } = props.params;
   const { currentProject } = await getProjectWithNavigation(slug);
 
   if (!currentProject) {
@@ -65,8 +64,8 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
 }
 
 // --- Strona ---
-export default async function ProjectPage(props: { params: Promise<{ slug: string }> }) {
-  const { slug } = await props.params;
+export default async function ProjectPage(props: { params: { slug: string } }) {
+  const { slug } = props.params;
   const { currentProject, nextProject, prevProject } = await getProjectWithNavigation(slug);
 
   if (!currentProject) {

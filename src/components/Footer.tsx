@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -48,22 +48,17 @@ export default function Footer() {
             <h3 className="font-inter text-sm text-neutral-400">Socials</h3>
             <ul className="mt-4 space-y-2">
               <li>
-                <a href="#" target="_blank">
-                  Twitter (X)
+                <a href="https://www.behance.net/damedsgn" target="_blank">
+                  Behance
                 </a>
               </li>
               <li>
-                <a href="#" target="_blank">
+                <a href="https://www.instagram.com/dame.dsgn/" target="_blank">
                   Instagram
                 </a>
               </li>
               <li>
-                <a href="#" target="_blank">
-                  Dribbble
-                </a>
-              </li>
-              <li>
-                <a href="#" target="_blank">
+                <a href="https://www.linkedin.com/in/damian-tomasik-5a3967204/" target="_blank">
                   LinkedIn
                 </a>
               </li>
@@ -71,19 +66,30 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="mx-auto mt-8 max-w-7xl border-t border-neutral-800 pt-6 flex justify-between items-center text-sm text-neutral-500">
-        <p>
+      <div className="mx-auto mt-8 max-w-7xl border-t border-neutral-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-neutral-500">
+        <p className="text-center sm:text-left">
           &copy; {new Date().getFullYear()} DameDesign. All rights reserved. |
           Created with ❤️ by{" "}
           <button
             onClick={handleCopy}
             className="font-medium text-white transition-colors hover:text-accent focus:outline-none"
           >
-            {copied ? "Skopiowano tag Discord! Napisz do mnie na Discordzie!" : "Michalij"}
+            {copied ? "Skopiowano tag Discord!" : "Michalij"}
           </button>
+          <span className="hidden sm:inline"> | </span>
+          <br className="sm:hidden" />
+          <Link
+            href="/polityka-prywatnosci"
+            className="hover:text-white transition-colors"
+          >
+            Polityka Prywatności
+          </Link>
         </p>
-        <Link href="/login" className="text-neutral-600 hover:text-accent transition-colors">
-            <Settings size={20} />
+        <Link
+          href="/login"
+          className="text-neutral-600 hover:text-accent transition-colors"
+        >
+          <Settings size={20} />
         </Link>
       </div>
     </footer>

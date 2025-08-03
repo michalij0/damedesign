@@ -1,10 +1,10 @@
-import { createServerComponentClient } from "@supabase/ssr";
+import { createClient } from "@/utils/supabase/server"; // Poprawiony import
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import EditProjectForm from "@/components/EditProjectForm";
 
 const getProjectData = async (slug: string) => {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createClient(); // Używamy naszej nowej funkcji
   const { data: project } = await supabase
     .from("projects")
     .select("*")
@@ -14,9 +14,15 @@ const getProjectData = async (slug: string) => {
   return project;
 };
 
-export default async function EditProjectPage({ params }: any) {
-  const supabase = createServerComponentClient({ cookies });
-  const { data: { user } } = await supabase.auth.getUser();
+export default async function EditProjectPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const supabase = createClient(); // Używamy naszej nowej funkcji
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect("/login");

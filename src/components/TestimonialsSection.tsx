@@ -3,7 +3,7 @@
 import Image from "next/image";
 import AnimatedSection from "./AnimatedSection";
 import { useState, useEffect } from "react";
-import { createClient } from "@supabase/ssr";
+import { createClient } from "@/utils/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { Pencil, Trash2, PlusCircle } from "lucide-react";
@@ -24,33 +24,24 @@ export default function TestimonialsSection() {
   const [loading, setLoading] = useState(true);
   const [testimonialToDelete, setTestimonialToDelete] = useState<Testimonial | null>(null);
 
+  const supabase = createClient();
   const { addNotification } = useNotification();
 
   useEffect(() => {
-    // KLUCZOWA ZMIANA: Tworzenie klienta Supabase wewnątrz useEffect
-    const supabase = createClient();
-    
     const fetchData = async () => {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        setUser(user);
-  
-        const { data } = await supabase.from("testimonials").select("*").order("created_at", { ascending: false });
-        setTestimonials(data || []);
-      } catch (error) {
-        console.error("Błąd pobierania danych: ", error);
-      } finally {
-        setLoading(false);
-      }
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+
+      const { data } = await supabase.from("testimonials").select("*").order("created_at", { ascending: false });
+      setTestimonials(data || []);
+      setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [supabase]);
 
   const handleDelete = async () => {
     if (!testimonialToDelete) return;
 
-    // Klient Supabase musi być również dostępny do tej funkcji, tworzymy go lokalnie
-    const supabase = createClient();
     const { error } = await supabase.from("testimonials").delete().eq("id", testimonialToDelete.id);
 
     if (error) {
@@ -65,7 +56,7 @@ export default function TestimonialsSection() {
   // Inteligentne duplikowanie opinii, aby karuzela zawsze była pełna
   const MIN_CAROUSEL_ITEMS = 4;
   let carouselTestimonials = [...testimonials];
-  while (carouselTestimonials.length > 0 && carouselTestimonials.length < MIN_CAROUSEEL_ITEMS) {
+  while (carouselTestimonials.length > 0 && carouselTestimonials.length < MIN_CAROUSEL_ITEMS) {
     carouselTestimonials = [...carouselTestimonials, ...testimonials];
   }
 
@@ -124,7 +115,7 @@ export default function TestimonialsSection() {
                               {testimonial.name}
                             </cite>
                           </footer>
-                          <p>&quot;{testimonial.text}&quot;</p>
+                          <p>"{testimonial.text}"</p>
                         </blockquote>
                       </li>
                     ))}
@@ -134,7 +125,7 @@ export default function TestimonialsSection() {
                 <div className="h-full flex items-center justify-center text-center border border-dashed border-neutral-800 rounded-xl">
                   <div>
                     <h3 className="text-xl font-bold text-neutral-400">Brak opinii do wyświetlenia.</h3>
-                    {user && <p className="text-neutral-500 mt-2">Kliknij &quot;+&quot;, aby dodać pierwszą.</p>}
+                    {user && <p className="text-neutral-500 mt-2">Kliknij "+", aby dodać pierwszą.</p>}
                   </div>
                 </div>
               )}
