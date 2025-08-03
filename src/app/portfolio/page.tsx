@@ -12,7 +12,7 @@ import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 import { FilterDropdown } from "@/components/FilterDropdown";
 import { TagFilterDropdown } from "@/components/TagFilterDropdown";
 import { motion, AnimatePresence } from "framer-motion";
-import SafeImage from "./SafeImage";
+import SafeImage from "@/components/SafeImage";
 
 interface Project {
   id: number;
