@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import MainLayout from '@/components/MainLayout';
 
 interface ProjectData {
   title: string;

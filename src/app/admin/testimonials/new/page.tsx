@@ -9,6 +9,7 @@ import { ArrowLeft, UploadCloud } from "lucide-react";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
 import type { CloudinaryUploadWidgetResults } from "next-cloudinary";
 import { useNotification } from "@/context/NotificationProvider";
+import MainLayout from '@/components/MainLayout';
 
 export default function NewTestimonialPage() {
   const [user, setUser] = useState<User | null>(null);

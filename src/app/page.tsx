@@ -1,7 +1,12 @@
+// src/app/page.tsx
 import type { Metadata } from "next";
 import HomePageClient from "@/components/HomePageClient";
 
-// Rozbudowane metadane dla zaawansowanego SEO
+// ---> ZMIANA: Dodajemy importy dla MainLayout i Supabase
+import MainLayout from '@/components/MainLayout';
+import { createClient } from '@/utils/supabase/server';
+
+// Twoje metadane (pozostają bez zmian)
 export const metadata: Metadata = {
   title: "DameDesign - Projekty Graficzne Dopasowane do Twoich Potrzeb",
   description: "Profesjonalne portfolio grafika. Specjalizuję się w brandingu, projektach digital, DTP i ilustracjach. Zobacz moje prace i stwórzmy razem coś niesamowitego.",
@@ -17,7 +22,7 @@ export const metadata: Metadata = {
     siteName: "DameDesign",
     images: [
       {
-        url: 'https://damedesign.pl/og-image.png', // Link do Twojego obrazka
+        url: 'https://damedesign.pl/og-image.png',
         width: 1200,
         height: 630,
         alt: 'DameDesign - Projekty Graficzne',
@@ -32,7 +37,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'DameDesign - Profesjonalne Projekty Graficzne',
     description: 'Portfolio grafika specjalizującego się w brandingu, DTP i ilustracjach.',
-    images: ['https://damedesign.pl/og-image.png'], // Ten sam obrazek
+    images: ['https://damedesign.pl/og-image.png'],
   },
 
   // Instrukcje dla robotów Google
@@ -49,7 +54,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
-  // Renderujemy komponent kliencki, który zawiera cały wygląd
-  return <HomePageClient />;
+// ---> ZMIANA: Zmieniamy funkcję na `async`, aby pobrać dane na serwerze
+export default async function Home() {
+  // ---> ZMIANA: Dodajemy logikę pobierania danych potrzebnych dla MainLayout
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const isMaintenanceMode = process.env.MAINTENANCE_MODE === 'true';
+
+  // ---> ZMIANA: Opakowujemy komponent kliencki w MainLayout, przekazując pobrane dane
+  return (
+    <MainLayout serverUser={user} isMaintenanceMode={isMaintenanceMode}>
+      <HomePageClient />
+    </MainLayout>
+  );
 }

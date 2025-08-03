@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import MainLayout from '@/components/MainLayout';
 
 export const metadata: Metadata = {
   title: "Polityka Prywatności | DameDesign",

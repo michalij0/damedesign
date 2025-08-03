@@ -7,6 +7,7 @@ import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useNotification } from "@/context/NotificationProvider";
+import MainLayout from '@/components/MainLayout';
 
 export default function NewFaqPage() {
   const [user, setUser] = useState<User | null>(null);

@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { notFound, redirect } from "next/navigation";
 import EditProjectForm from "@/components/EditProjectForm";
+import MainLayout from '@/components/MainLayout';
 
 const getProjectData = async (slug: string) => {
   const supabase = createClient();

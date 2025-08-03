@@ -10,6 +10,7 @@ import { CldUploadWidget, CldImage } from "next-cloudinary";
 import type { CloudinaryUploadWidgetResults } from "next-cloudinary";
 import { useNotification } from "@/context/NotificationProvider";
 import dynamic from "next/dynamic";
+import MainLayout from '@/components/MainLayout';
 
 const ContentEditor = dynamic(() => import("@/components/ContentEditor"), {
   ssr: false,

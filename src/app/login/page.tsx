@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useNotification } from "@/context/NotificationProvider";
 import type { User } from "@supabase/supabase-js";
 import AdminToolbar from "@/components/AdminToolbar";
+import MainLayout from '@/components/MainLayout';
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");

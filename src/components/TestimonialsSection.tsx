@@ -11,7 +11,6 @@ import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import { useNotification } from "@/context/NotificationProvider";
 import SafeImage from "./SafeImage";
 
-// Definiujemy typ danych dla opinii
 interface Testimonial {
   id: number;
   name: string;
@@ -59,13 +58,11 @@ export default function TestimonialsSection() {
     setTestimonialToDelete(null);
   };
 
-  // Inteligentne duplikowanie opinii, aby karuzela zawsze była pełna
   const MIN_CAROUSEL_ITEMS = 4;
   let carouselTestimonials = [...testimonials];
   while (carouselTestimonials.length > 0 && carouselTestimonials.length < MIN_CAROUSEL_ITEMS) {
     carouselTestimonials = [...carouselTestimonials, ...testimonials];
   }
-
 
   if (loading) {
     return <section id="testimonials" className="py-24 bg-black" />;
@@ -74,21 +71,20 @@ export default function TestimonialsSection() {
   return (
     <>
       <AnimatedSection>
-        {/* ---> POCZĄTEK ZMIANY: Dodajemy tło, overlay i pozycjonowanie do sekcji */}
+        {/* ---> POCZĄTEK ZMIANY <--- */}
         <section 
           id="testimonials" 
-          className="relative py-24 bg-cover bg-center"
+          // Dodaliśmy klasę `bg-fixed`, aby tło się nie przewijało
+          className="relative py-24 bg-cover bg-center bg-fixed"
           style={{ backgroundImage: "url('/img/bg_testim.png')" }}
         >
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+          {/* Usunęliśmy stąd div z przyciemniającą nakładką (overlay) */}
           <div className="relative mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
         {/* ---> KONIEC ZMIANY <--- */}
-
             <div className="lg:col-span-1">
               <div className="flex items-center gap-4">
                 <div>
                   <p className="text-accent text-lg">Kilka słów</p>
-                  {/* ---> ZMIANA: Dodajemy klasę `text-white` do nagłówka */}
                   <h2 className="text-5xl font-bold font-druk-wide leading-tight text-white">
                     Od klientów
                   </h2>
@@ -100,7 +96,6 @@ export default function TestimonialsSection() {
                 )}
               </div>
             </div>
-
             <div className="lg:col-span-2 h-[60vh] overflow-hidden">
               {testimonials.length > 0 ? (
                 <div className="group w-full h-full">
