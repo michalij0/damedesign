@@ -6,12 +6,12 @@ import { createClient } from "@/utils/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import MaintenancePage from "./MaintenancePage";
 import GoogleAnalytics from "./GoogleAnalytics";
-import { NotificationProvider } from "@/context/NotificationProvider";
+// ---> ZMIANA: Usunęliśmy import NotificationProvider
 import Preloader from "./Preloader";
 import Header from "./Header";
 import Footer from "./Footer";
 import AdminNotifier from "./AdminNotifier";
-import CookieBanner from "./CookieBanner"; // Dodany import
+import CookieBanner from "./CookieBanner";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -56,14 +56,14 @@ export default function MainLayout({ children, serverUser, isMaintenanceMode }: 
   return (
     <>
       <GoogleAnalytics />
-      <NotificationProvider>
-        <Preloader />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        {user && <AdminNotifier />}
-      </NotificationProvider>
-      <CookieBanner /> {/* Dodany baner */}
+      {/* ---> ZMIANA: Usunęliśmy stąd <NotificationProvider> */}
+      <Preloader />
+      <Header />
+      <main>{children}</main>
+      <Footer />
+      {user && <AdminNotifier />}
+      {/* ---> ZMIANA: Usunęliśmy stąd </NotificationProvider> */}
+      <CookieBanner />
       <div id="portal-root"></div>
     </>
   );
