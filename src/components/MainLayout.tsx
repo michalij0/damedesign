@@ -55,9 +55,9 @@ export default function MainLayout({ children, serverUser, isMaintenanceMode }: 
   return (
     <>
       {/* ---> ZMIANA: Opakowujemy GoogleAnalytics w Suspense, aby naprawić błąd builda */}
-      <Suspense fallback={null}>
+      {/*<Suspense fallback={null}>
         <GoogleAnalytics />
-      </Suspense>
+      </Suspense>*/}
       
       <Preloader />
       <Header />
