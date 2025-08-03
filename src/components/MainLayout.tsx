@@ -13,7 +13,7 @@ import Footer from "./Footer";
 import AdminNotifier from "./AdminNotifier";
 import CookieBanner from "./CookieBanner";
 import ProgressBar from "./ProgressBar";
-import { NotificationProvider } from "@/context/NotificationProvider"; // Wracamy do importu tutaj
+// Usunęliśmy import NotificationProvider, bo jest już globalnie
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -56,8 +56,8 @@ export default function MainLayout({ children, serverUser, isMaintenanceMode }: 
   }
 
   return (
-    // Używamy NotificationProvider jako głównego "opakowania"
-    <NotificationProvider>
+    // Usunęliśmy stąd opakowanie <NotificationProvider>
+    <>
       <Suspense fallback={null}>
         <GoogleAnalytics />
         <ProgressBar />
@@ -70,6 +70,6 @@ export default function MainLayout({ children, serverUser, isMaintenanceMode }: 
       {user && <AdminNotifier />}
       <CookieBanner />
       <div id="portal-root"></div>
-    </NotificationProvider>
+    </>
   );
 }
