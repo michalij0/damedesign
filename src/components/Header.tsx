@@ -43,13 +43,13 @@ export default function Header() {
 
     if (pathname === "/") {
       window.addEventListener("scroll", handleScroll);
-      handleScroll(); // Uruchom raz na początku
+      handleScroll();
       return () => window.removeEventListener("scroll", handleScroll);
     } else {
       setActiveSection(pathname);
       const handleSimpleScroll = () => setScrolled(window.scrollY > 10);
       window.addEventListener("scroll", handleSimpleScroll);
-      handleSimpleScroll(); // Uruchom raz na początku
+      handleSimpleScroll();
       return () => window.removeEventListener("scroll", handleSimpleScroll);
     }
   }, [pathname]);
@@ -69,6 +69,12 @@ export default function Header() {
     if (pathname === "/") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
+      
+      // ---> POCZĄTEK POPRAWKI: Dodana linia do czyszczenia adresu URL <---
+      // Modyfikuje historię przeglądarki, usuwając hash, bez przeładowania strony.
+      window.history.replaceState(null, '', pathname);
+      // ---> KONIEC POPRAWKI <---
+
       setActiveSection("");
     }
     setIsMenuOpen(false);
@@ -88,22 +94,25 @@ export default function Header() {
           scrolled || isMenuOpen ? "bg-black/50 backdrop-blur-lg" : "bg-transparent"
         }`}
       >
-        {/* ---> ZMIANA: Usunęliśmy `justify-between` i dodaliśmy `gap-6` dla odstępów */}
-        <div className="mx-auto flex w-full max-w-7xl items-center gap-6">
-          {/* ---> ZMIANA: Owinęliśmy logo w div z klasą `mr-auto`, aby wypchnąć resztę na prawo */}
-          <div className="mr-auto">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between">
+          <div className="flex items-center gap-4">
             <Link href="/" onClick={handleLogoClick}>
               <Image
                 src="/img/logo.svg"
                 alt="DameDesign Logo"
                 width={140}
                 height={40}
-                className="h-8 w-auto"
+                className="h-8 w-auto flex-shrink-0"
               />
             </Link>
+            
+            <div className="md:hidden">
+              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white z-40 relative">
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
-          
-          {/* Nawigacja na desktop (ukryta poniżej 768px) */}
+
           <nav className="hidden md:block">
             <ul className="flex items-center gap-8 font-inter">
               {navLinks.map((link) => (
@@ -122,17 +131,9 @@ export default function Header() {
               ))}
             </ul>
           </nav>
-
-          {/* Przycisk menu mobilnego (widoczny poniżej 768px) */}
-          <div className="md:hidden">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white z-40 relative">
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
         </div>
       </header>
 
-      {/* Menu mobilne (overlay) */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div

@@ -17,6 +17,28 @@ interface Logo {
   alt_text: string;
 }
 
+// Komponent dla pojedynczego logo, aby uniknąć powtarzania kodu
+const LogoItem = ({ logo, user, onSetLogoToDelete }: { logo: Logo, user: User | null, onSetLogoToDelete: (logo: Logo) => void }) => (
+  <li className="mx-12 flex-shrink-0 relative group/item">
+    <Image
+      src={logo.logo_url}
+      alt={logo.alt_text || `Logo klienta ${logo.name}`}
+      width={140}
+      height={50}
+      className="h-12 w-auto object-contain filter grayscale brightness-50 opacity-60 transition-all duration-300 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
+    />
+    {user && (
+      <button
+        onClick={() => onSetLogoToDelete(logo)}
+        className="absolute -top-2 -right-2 p-1 bg-red-600 rounded-full text-white opacity-0 group-hover/item:opacity-100 transition-opacity"
+      >
+        <Trash2 size={12} />
+      </button>
+    )}
+  </li>
+);
+
+
 export default function LogoCarousel() {
   const [user, setUser] = useState<User | null>(null);
   const [logos, setLogos] = useState<Logo[]>([]);
@@ -30,12 +52,7 @@ export default function LogoCarousel() {
     const fetchData = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
-
-      const { data } = await supabase
-        .from("logos")
-        .select("*")
-        .order("created_at", { ascending: false });
-      
+      const { data } = await supabase.from("logos").select("*").order("created_at", { ascending: false });
       setLogos(data || []);
       setLoading(false);
     };
@@ -46,16 +63,12 @@ export default function LogoCarousel() {
     if (results.info && typeof results.info === "object" && "secure_url" in results.info) {
       const info = results.info;
       const originalFilename = (info as any).original_filename || "Nowe Logo";
-      const newLogo = {
+      const newLogoData = {
         name: originalFilename,
         logo_url: info.secure_url,
         alt_text: `Logo klienta: ${originalFilename}`,
       };
-      const { data, error } = await supabase
-        .from("logos")
-        .insert(newLogo)
-        .select()
-        .single();
+      const { data, error } = await supabase.from("logos").insert(newLogoData).select().single();
       if (error) {
         addNotification(`Błąd: ${error.message}`, "error");
       } else if (data) {
@@ -88,10 +101,7 @@ export default function LogoCarousel() {
           <div className="absolute top-4 right-6 z-10">
             <CldUploadWidget uploadPreset="ml_default" onSuccess={handleUploadSuccess}>
               {({ open }) => (
-                <button
-                  onClick={() => open()}
-                  className="group inline-flex items-center gap-2 rounded-full bg-neutral-800 px-3 py-1 text-xs font-medium text-neutral-300 transition-colors hover:bg-accent hover:text-black"
-                >
+                <button onClick={() => open()} className="group inline-flex items-center gap-2 rounded-full bg-neutral-800 px-3 py-1 text-xs font-medium text-neutral-300 transition-colors hover:bg-accent hover:text-black">
                   <PlusCircle size={14} />
                   <span>Dodaj logo</span>
                 </button>
@@ -100,54 +110,24 @@ export default function LogoCarousel() {
           </div>
         )}
         {logos.length > 0 ? (
-          // ---> ZMIANA: Kontener, który maskuje krawędzie i ukrywa "nadmiar" treści
-          <div className="group w-full overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
-            {/* ---> ZMIANA: Jedna lista `ul`, która zawiera zdublowane loga i to ona jest animowana */}
-            <ul className="flex flex-nowrap items-center animate-infinite-scroll group-hover:[animation-play-state:paused]">
-              {/* Pierwszy, oryginalny zestaw logotypów */}
-              {logos.map((logo) => (
-                <li key={logo.id} className="mx-12 flex-shrink-0 relative group/item">
-                  <Image
-                    src={logo.logo_url}
-                    alt={logo.alt_text || `Logo klienta ${logo.name}`}
-                    width={140}
-                    height={50}
-                    className="h-12 w-auto object-contain filter grayscale brightness-50 opacity-60 transition-all duration-300 hover:grayscale-0 hover:brightness-100 hover:opacity-100"
-                  />
-                  {user && (
-                    <button
-                      onClick={() => setLogoToDelete(logo)}
-                      className="absolute -top-2 -right-2 p-1 bg-red-600 rounded-full text-white opacity-0 group-hover/item:opacity-100 transition-opacity"
-                    >
-                      <Trash2 size={12} />
-                    </button>
-                  )}
-                </li>
+          <div className="group w-full overflow-hidden [mask-image:_linear_gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
+            {/* ---> ZMIANA: Uproszczona i bardziej niezawodna struktura */}
+            <div className="flex w-max animate-infinite-scroll group-hover:[animation-play-state:paused]">
+              {/* Renderujemy podwójną listę logotypów */}
+              {[...logos, ...logos].map((logo, index) => (
+                <LogoItem 
+                  key={`${logo.id}-${index}`} 
+                  logo={logo} 
+                  user={user} 
+                  onSetLogoToDelete={setLogoToDelete} 
+                />
               ))}
-              {/* Drugi, zduplikowany zestaw logotypów, dla płynnej pętli */}
-              {logos.map((logo) => (
-                <li key={`${logo.id}-duplicate`} className="mx-12 flex-shrink-0 relative group/item" aria-hidden="true">
-                  <Image
-                    src={logo.logo_url}
-                    alt={logo.alt_text || `Logo klienta ${logo.name}`}
-                    width={140}
-                    height={50}
-                    className="h-12 w-auto object-contain filter grayscale brightness-50 opacity-60 transition-all duration-300 hover:grayscale-0 hover:brightness-100 hover:opacity-100"
-                  />
-                </li>
-              ))}
-            </ul>
+            </div>
           </div>
         ) : (
           <div className="mx-auto max-w-7xl px-6 text-center py-8 border border-dashed border-neutral-800 rounded-xl">
-            <h3 className="text-lg font-bold text-neutral-400">
-              Brak logotypów do wyświetlenia.
-            </h3>
-            {user && (
-              <p className="text-neutral-500 mt-1 text-sm">
-                Kliknij 'Dodaj logo', aby dodać pierwsze.
-              </p>
-            )}
+            <h3 className="text-lg font-bold text-neutral-400">Brak logotypów do wyświetlenia.</h3>
+            {user && <p className="text-neutral-500 mt-1 text-sm">Kliknij 'Dodaj logo', aby dodać pierwsze.</p>}
           </div>
         )}
       </div>

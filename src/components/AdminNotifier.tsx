@@ -51,7 +51,6 @@ export default function AdminNotifier() {
         { event: "*", schema: "public", table: "contact_submissions" },
         (payload) => {
           fetchSubmissions();
-          // Odtwórz dźwięk, jeśli jest nowa wiadomość
           if (payload.eventType === 'INSERT') {
             new Audio('/sounds/ding.mp3').play();
           }
@@ -93,7 +92,7 @@ export default function AdminNotifier() {
         {isModalOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-neutral-900 rounded-2xl w-full max-w-2xl h-[80vh] flex flex-col">
-              <header className="p-4 border-b border-neutral-800 flex justify-between items-center">
+              <header className="p-4 border-b border-neutral-800 flex justify-between items-center flex-shrink-0">
                 <h3 className="text-lg font-bold text-white">Odebrane wiadomości</h3>
                 <button onClick={() => setIsModalOpen(false)} className="text-neutral-400 hover:text-white"><X size={20} /></button>
               </header>
@@ -124,32 +123,35 @@ export default function AdminNotifier() {
       
       <AnimatePresence>
         {selectedSubmission && (
-           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-neutral-900 rounded-2xl w-full max-w-3xl h-[90vh] flex flex-col">
-               <header className="p-4 border-b border-neutral-800 flex justify-between items-center">
-                <div>
-                    <h3 className="text-lg font-bold text-white">{selectedSubmission.subject}</h3>
-                    <p className="text-sm text-neutral-400">{selectedSubmission.email}</p>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+              <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-neutral-900 rounded-2xl w-full max-w-3xl h-[90vh] flex flex-col">
+                <header className="p-4 border-b border-neutral-800 flex justify-between items-center flex-shrink-0">
+                  <div>
+                      <h3 className="text-lg font-bold text-white">{selectedSubmission.subject}</h3>
+                      <p className="text-sm text-neutral-400">{selectedSubmission.email}</p>
+                  </div>
+                  <button onClick={() => setSelectedSubmission(null)} className="text-neutral-400 hover:text-white"><X size={20} /></button>
+                </header>
+                <div className="p-6 overflow-y-auto space-y-6">
+                  {/* ---> POCZĄTEK POPRAWKI <--- */}
+                  <p className="text-white whitespace-pre-wrap break-words">{selectedSubmission.message}</p>
+                  {/* ---> KONIEC POPRAWKI <--- */}
+
+                  {selectedSubmission.attachment_urls && selectedSubmission.attachment_urls.length > 0 && (
+                      <div>
+                          <h4 className="font-bold text-neutral-300 mb-2">Załączniki:</h4>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                              {selectedSubmission.attachment_urls.map((url, i) => (
+                                  <Link key={i} href={url} target="_blank" rel="noopener noreferrer" className="aspect-square bg-neutral-800 rounded-lg overflow-hidden">
+                                      <Image src={url} alt={`Załącznik ${i+1}`} width={200} height={200} className="w-full h-full object-cover" />
+                                  </Link>
+                              ))}
+                          </div>
+                      </div>
+                  )}
                 </div>
-                <button onClick={() => setSelectedSubmission(null)} className="text-neutral-400 hover:text-white"><X size={20} /></button>
-              </header>
-              <div className="p-6 overflow-y-auto space-y-6">
-                <p className="text-white whitespace-pre-wrap">{selectedSubmission.message}</p>
-                {selectedSubmission.attachment_urls && selectedSubmission.attachment_urls.length > 0 && (
-                    <div>
-                        <h4 className="font-bold text-neutral-300 mb-2">Załączniki:</h4>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            {selectedSubmission.attachment_urls.map((url, i) => (
-                                <Link key={i} href={url} target="_blank" rel="noopener noreferrer" className="aspect-square bg-neutral-800 rounded-lg overflow-hidden">
-                                    <Image src={url} alt={`Załącznik ${i+1}`} width={200} height={200} className="w-full h-full object-cover" />
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                )}
-              </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
         )}
       </AnimatePresence>
     </>
