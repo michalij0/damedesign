@@ -7,6 +7,7 @@ import { createClient } from "@/utils/supabase/client"; // Poprawiony import
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
+import SafeImage from "./SafeImage";
 
 interface AboutData {
   heading: string;
@@ -71,7 +72,7 @@ export default function AboutSection() {
         <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-lg">
-              <Image
+              <SafeImage
                 src={aboutData.image_url || "/img/hero.png"}
                 alt="Zdjęcie autora strony"
                 fill

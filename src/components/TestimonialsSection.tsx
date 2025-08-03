@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Pencil, Trash2, PlusCircle } from "lucide-react";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import { useNotification } from "@/context/NotificationProvider";
+import SafeImage from "./SafeImage";
 
 // Definiujemy typ danych dla opinii
 interface Testimonial {
@@ -109,7 +110,7 @@ export default function TestimonialsSection() {
                         )}
                         <blockquote className="relative text-lg text-neutral-300 border-l-2 border-accent pl-6">
                           <footer className="mb-4 flex items-center gap-4">
-                            <Image
+                            <SafeImage
                               src={testimonial.avatar_url || '/img/avatars/default.png'}
                               alt={testimonial.name}
                               width={48}

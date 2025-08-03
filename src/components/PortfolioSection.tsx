@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import SafeImage from "./SafeImage";
 
 // Definiujemy typ danych, które przychodzą z Supabase
 interface Project {
@@ -92,7 +93,7 @@ export default function PortfolioSection() {
                   className="block w-[350px] group/item"
                 >
                   <div className="w-full h-64 bg-neutral-800 rounded-xl overflow-hidden mb-4">
-                    <Image
+                    <SafeImage
                       src={project.thumbnail_url}
                       alt={project.title}
                       width={350}

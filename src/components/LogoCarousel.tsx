@@ -9,6 +9,7 @@ import { CldUploadWidget } from "next-cloudinary";
 import type { CloudinaryUploadWidgetResults } from "next-cloudinary";
 import { useNotification } from "@/context/NotificationProvider";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import SafeImage from "./SafeImage";
 
 interface Logo {
   id: number;
@@ -17,10 +18,9 @@ interface Logo {
   alt_text: string;
 }
 
-// Komponent dla pojedynczego logo, aby uniknąć powtarzania kodu
 const LogoItem = ({ logo, user, onSetLogoToDelete }: { logo: Logo, user: User | null, onSetLogoToDelete: (logo: Logo) => void }) => (
   <li className="mx-12 flex-shrink-0 relative group/item">
-    <Image
+    <SafeImage
       src={logo.logo_url}
       alt={logo.alt_text || `Logo klienta ${logo.name}`}
       width={140}
@@ -37,7 +37,6 @@ const LogoItem = ({ logo, user, onSetLogoToDelete }: { logo: Logo, user: User | 
     )}
   </li>
 );
-
 
 export default function LogoCarousel() {
   const [user, setUser] = useState<User | null>(null);
@@ -111,9 +110,8 @@ export default function LogoCarousel() {
         )}
         {logos.length > 0 ? (
           <div className="group w-full overflow-hidden [mask-image:_linear_gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
-            {/* ---> ZMIANA: Uproszczona i bardziej niezawodna struktura */}
-            <div className="flex w-max animate-infinite-scroll group-hover:[animation-play-state:paused]">
-              {/* Renderujemy podwójną listę logotypów */}
+            {/* ZMIANA: Zmieniliśmy `div` na `ul` dla poprawnej struktury HTML, co usuwa kropki */}
+            <ul className="flex w-max animate-infinite-scroll group-hover:[animation-play-state:paused]">
               {[...logos, ...logos].map((logo, index) => (
                 <LogoItem 
                   key={`${logo.id}-${index}`} 
@@ -122,7 +120,7 @@ export default function LogoCarousel() {
                   onSetLogoToDelete={setLogoToDelete} 
                 />
               ))}
-            </div>
+            </ul>
           </div>
         ) : (
           <div className="mx-auto max-w-7xl px-6 text-center py-8 border border-dashed border-neutral-800 rounded-xl">

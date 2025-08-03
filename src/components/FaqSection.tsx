@@ -46,7 +46,7 @@ const AccordionItem = ({
         onClick={onClick}
         className="w-full flex justify-between items-center text-left"
       >
-        <span className="text-lg font-medium text-white pr-24">{item.question}</span>
+        <span className="text-lg font-medium text-white pr-12">{item.question}</span>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
@@ -87,7 +87,7 @@ export default function FaqSection() {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         setUser(user);
-  
+    
         const { data } = await supabase.from("faq_items").select("*").order("created_at", { ascending: true });
         setFaqItems(data || []);
       } catch (error) {
@@ -113,7 +113,6 @@ export default function FaqSection() {
     setItemToDelete(null);
   };
 
-  // Generowanie danych strukturalnych JSON-LD dla FAQ
   const generateFaqJsonLd = () => {
     if (faqItems.length === 0) return null;
     return {
@@ -143,8 +142,19 @@ export default function FaqSection() {
         />
       </Head>
       <AnimatedSection>
-        <section id="faq" className="py-24">
-          <div className="mx-auto max-w-7xl px-6">
+        {/* ---> POCZĄTEK ZMIANY <--- */}
+        <section 
+          id="faq" 
+          className="relative py-24 bg-cover bg-center"
+          style={{ backgroundImage: "url('/img/bg_testim.png')" }}
+        >
+          {/* Dodajemy overlay dla lepszej czytelności tekstu */}
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+
+          {/* Dodajemy `relative`, aby treść była nad overlayem */}
+          <div className="relative mx-auto max-w-7xl px-6">
+        {/* ---> KONIEC ZMIANY <--- */}
+
             <div className="text-center mb-12 flex justify-center items-center gap-4">
               <h2 className="text-5xl font-bold font-druk-wide">
                 Często zadawane pytania

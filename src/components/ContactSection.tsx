@@ -45,22 +45,53 @@ export default function ContactSection() {
     const subject = formData.get('subject') as string;
     const message = formData.get('message') as string;
 
-    const { error } = await supabase.from('contact_submissions').insert({
+    // Krok 1: Zapisz dane w Supabase
+    const { error: supabaseError } = await supabase.from('contact_submissions').insert({
         email,
         subject,
         message,
         attachment_urls: files.map(f => f.url)
     });
 
-    setIsSubmitting(false);
-    if (error) {
-        addNotification(`Błąd: ${error.message}`, 'error');
-    } else {
-        setShowSuccessPopup(true);
-        setFiles([]);
-        form.reset();
-        setPrivacyAccepted(false);
+    if (supabaseError) {
+      addNotification(`Błąd zapisu w bazie: ${supabaseError.message}`, 'error');
+      setIsSubmitting(false);
+      return;
     }
+
+    // ---> POCZĄTEK ZMIANY: Krok 2 - Wyślij email przez nasze API
+    try {
+      const emailPayload = {
+        email,
+        subject,
+        message,
+        attachments: files,
+      };
+
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailPayload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Wysyłka maila nie powiodła się.');
+      }
+      
+      // Wszystko się udało, pokaż popup sukcesu
+      setShowSuccessPopup(true);
+      setFiles([]);
+      form.reset();
+      setPrivacyAccepted(false);
+
+    } catch (emailError) {
+      addNotification(`Błąd wysyłki maila: ${(emailError as Error).message}`, 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
+    // ---> KONIEC ZMIANY
   };
 
   return (

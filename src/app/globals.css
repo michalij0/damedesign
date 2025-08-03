@@ -7,7 +7,7 @@ html {
   scroll-padding-top: -3rem; /* 160px - Jeszcze bardziej zwiększony margines */
 }
 
-/* --- Dodany kod animacji karuzeli --- */
+/* --- Kod animacji karuzeli --- */
 @layer utilities {
   @keyframes infinite-scroll {
     from {
@@ -19,6 +19,6 @@ html {
   }
 
   .animate-infinite-scroll {
-    animation: infinite-scroll 40s linear infinite;
+    animation: infinite-scroll 55s linear infinite; /* ZMIANA: Wolniejsza animacja */
   }
 }

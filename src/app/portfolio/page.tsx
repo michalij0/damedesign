@@ -12,6 +12,7 @@ import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 import { FilterDropdown } from "@/components/FilterDropdown";
 import { TagFilterDropdown } from "@/components/TagFilterDropdown";
 import { motion, AnimatePresence } from "framer-motion";
+import SafeImage from "./SafeImage";
 
 interface Project {
   id: number;
@@ -160,7 +161,7 @@ export default function PortfolioPage() {
                   <motion.div layout key={project.id} className="group relative">
                     <Link href={`/portfolio/${project.slug}`} className="block">
                       <div className="overflow-hidden rounded-xl mb-4 aspect-video bg-neutral-800 border-2 border-transparent group-hover:border-accent transition-colors duration-300">
-                        <Image src={project.thumbnail_url || "/img/placeholder.png"} alt={project.title} width={800} height={450} className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
+                        <SafeImage src={project.thumbnail_url || "/img/placeholder.png"} alt={project.title} width={800} height={450} className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
                       </div>
                       <div className="flex items-center justify-between">
                         <div>
