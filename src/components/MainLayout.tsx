@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState, useEffect, Suspense } from "react"; // ---> ZMIANA: Dodano import Suspense
+import { useState, useEffect, Suspense } from "react";
 import { createClient } from "@/utils/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import MaintenancePage from "./MaintenancePage";
@@ -11,6 +11,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import AdminNotifier from "./AdminNotifier";
 import CookieBanner from "./CookieBanner";
+import ProgressBar from "./ProgressBar"; // ---> ZMIANA: Dodajemy import ProgressBar
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -54,10 +55,11 @@ export default function MainLayout({ children, serverUser, isMaintenanceMode }: 
 
   return (
     <>
-      {/* ---> ZMIANA: Opakowujemy GoogleAnalytics w Suspense, aby naprawić błąd builda */}
-      {/*<Suspense fallback={null}>
+      {/* ---> ZMIANA: Opakowujemy WSZYSTKIE komponenty z `useSearchParams` w JEDEN Suspense */}
+      <Suspense fallback={null}>
         <GoogleAnalytics />
-      </Suspense>*/}
+        <ProgressBar />
+      </Suspense>
       
       <Preloader />
       <Header />

@@ -1,3 +1,4 @@
+// src/context/NotificationProvider.tsx
 "use client";
 
 import {
@@ -6,8 +7,9 @@ import {
   useState,
   ReactNode,
   useEffect,
+  Suspense, // <-- Ważny import
 } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, XCircle, Info, X } from "lucide-react";
 
@@ -37,13 +39,34 @@ const icons = {
   info: <Info className="text-blue-500" />,
 };
 
+// ---> ZMIANA: Stworzyliśmy mały komponent-pomocnik, który zajmuje się logiką URL
+// Tylko ten mały komponent będzie "zawieszany" przez Suspense.
+const NotificationUrlHandler = ({ addNotification }: { addNotification: (message: string, type: NotificationType) => void}) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const message = searchParams.get("notification_message");
+    const type = searchParams.get("notification_type") as NotificationType;
+
+    if (message && type) {
+      addNotification(message, type);
+      // Czyści URL, aby powiadomienie nie pojawiało się po odświeżeniu
+      router.replace(pathname, { scroll: false });
+    }
+    // Uruchom ten efekt tylko raz, gdy komponent się załaduje
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return null; // Ten komponent nic nie renderuje
+}
+
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const [notification, setNotification] = useState<{
     message: string;
     type: NotificationType;
   } | null>(null);
-  const searchParams = useSearchParams();
-  const router = useRouter();
 
   const addNotification = (
     message: string,
@@ -52,24 +75,18 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     setNotification({ message, type });
     setTimeout(() => {
       setNotification(null);
-    }, 4000); // Znika po 4 sekundach
+    }, 4000);
   };
-  
-  useEffect(() => {
-    const message = searchParams.get("notification_message");
-    const type = searchParams.get("notification_type") as NotificationType;
-
-    if (message && type) {
-      addNotification(message, type);
-      // Czyści URL, aby powiadomienie nie pojawiało się po odświeżeniu
-      router.replace("/", { scroll: false });
-    }
-  }, [searchParams, router]);
-
 
   return (
     <NotificationContext.Provider value={{ addNotification }}>
+      {/* ---> ZMIANA: Opakowujemy nasz nowy komponent w Suspense */}
+      <Suspense fallback={null}>
+        <NotificationUrlHandler addNotification={addNotification} />
+      </Suspense>
+      
       {children}
+      
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-md z-50">
         <AnimatePresence>
           {notification && (
