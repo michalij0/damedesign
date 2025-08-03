@@ -3,6 +3,7 @@ import { fontGeist, fontInter } from "./fonts";
 import "./globals.css";
 import { createClient } from "@/utils/supabase/server";
 import MainLayout from "@/components/MainLayout";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: "DameDesign - Projekty Graficzne",
