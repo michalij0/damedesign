@@ -65,7 +65,7 @@ export default function AboutSection() {
       <section
         id="o-mnie"
         className="py-24 relative bg-cover bg-center bg-fixed"
-        style={{ backgroundImage: `url('/img/bg_contact.png')` }}
+        style={{ backgroundImage: `url('/img/bg_about.png')` }}
       >
         <div className="absolute inset-0 bg-black/80" />
         <div className="relative z-10 mx-auto max-w-7xl px-6">
