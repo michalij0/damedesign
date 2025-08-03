@@ -26,26 +26,26 @@ export default function Footer() {
             href="/#kontakt"
             className="mt-4 inline-block rounded-full bg-accent px-5 py-3 font-inter text-sm font-medium text-black"
           >
-            Let&rsquo;s connect &rarr;
+            Napisz do mnie &rarr;
           </Link>
         </div>
         <div className="grid grid-cols-2 gap-8 md:col-span-2">
           <div>
-            <h3 className="font-inter text-sm text-neutral-400">Pages</h3>
+            <h3 className="font-inter text-sm text-neutral-400">Strony</h3>
             <ul className="mt-4 space-y-2">
               <li>
                 <Link href="/portfolio">Portfolio</Link>
               </li>
               <li>
-                <Link href="/#o-mnie">About</Link>
+                <Link href="/#o-mnie">O mnie</Link>
               </li>
               <li>
-                <Link href="/#kontakt">Contact</Link>
+                <Link href="/#kontakt">Kontakt</Link>
               </li>
             </ul>
           </div>
           <div>
-            <h3 className="font-inter text-sm text-neutral-400">Socials</h3>
+            <h3 className="font-inter text-sm text-neutral-400">Sociale</h3>
             <ul className="mt-4 space-y-2">
               <li>
                 <a href="https://www.behance.net/damedsgn" target="_blank">

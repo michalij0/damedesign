@@ -26,11 +26,8 @@ export default function ContactSection() {
   
   const handleUploadSuccess = (results: CloudinaryUploadWidgetResults) => {
     if (results.info && typeof results.info === 'object' && 'secure_url' in results.info) {
-      // ---> POCZĄTEK POPRAWKI <---
-      // Tworzymy lokalną stałą, aby TypeScript był pewien, że `info` istnieje.
       const info = results.info;
       setFiles(prev => [...prev, { name: (info as any).original_filename || 'załącznik', url: info.secure_url }]);
-      // ---> KONIEC POPRAWKI <---
     }
     setIsUploading(false);
   };
@@ -87,7 +84,7 @@ export default function ContactSection() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-5xl font-bold font-druk-wide leading-tight">Masz pomysł?<br />Porozmawiajmy.</h2>
-              <p className="mt-4 text-lg text-neutral-400">Wypełnij formularz lub napisz bezpośrednio na <a href="mailto:kontakt@damedesign.pl" className="text-accent hover:underline">kontakt@damedesign.pl</a></p>
+              <p className="mt-4 text-lg text-neutral-400">Wypełnij formularz lub napisz bezpośrednio na: <a href="mailto:kontakt@damedesign.pl" className="text-accent hover:underline">kontakt@damedesign.pl</a></p>
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>

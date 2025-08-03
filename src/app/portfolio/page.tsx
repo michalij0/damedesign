@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, PlusCircle, Pencil, Trash2, X } from "lucide-react";
-import { createClient } from "@/utils/supabase/client"; // Poprawiony import
+import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState, useMemo } from "react";
 import type { User } from "@supabase/supabase-js";
 import { useNotification } from "@/context/NotificationProvider";
@@ -18,6 +18,7 @@ interface Project {
   created_at: string;
   title: string;
   tags: string;
+  introduction: string; // Dodane pole
   thumbnail_url: string;
   slug: string;
   year: string;
@@ -32,7 +33,7 @@ export default function PortfolioPage() {
   const [sortMode, setSortMode] = useState("newest");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const supabase = createClient(); // Używamy naszej nowej funkcji
+  const supabase = createClient();
   const { addNotification } = useNotification();
   const router = useRouter();
 
@@ -164,7 +165,7 @@ export default function PortfolioPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <h3 className="text-xl font-bold text-white group-hover:text-accent transition-colors">{project.title}</h3>
-                          <p className="text-neutral-400 text-sm">{project.tags}</p>
+                          <p className="text-neutral-400 text-sm truncate">{project.introduction}</p>
                         </div>
                         <div className="flex items-center gap-1 text-neutral-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           <span>Zobacz</span>

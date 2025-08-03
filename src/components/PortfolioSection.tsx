@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client"; // Poprawiony import
+import { createClient } from "@/utils/supabase/client";
 import type { User } from "@supabase/supabase-js";
 
 // Definiujemy typ danych, które przychodzą z Supabase
@@ -12,6 +12,7 @@ interface Project {
   id: number;
   title: string;
   tags: string;
+  introduction: string; // Dodane pole
   thumbnail_url: string;
   slug: string;
 }
@@ -20,7 +21,7 @@ export default function PortfolioSection() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
-  const supabase = createClient(); // Używamy naszej nowej funkcji
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +31,7 @@ export default function PortfolioSection() {
 
         const { data, error } = await supabase
           .from("projects")
-          .select("*")
+          .select("id, title, tags, introduction, thumbnail_url, slug, created_at")
           .order("created_at", { ascending: false })
           .limit(5);
 
@@ -99,14 +100,16 @@ export default function PortfolioSection() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover/item:scale-105"
                     />
                   </div>
-                  <div className="flex justify-between items-center">
-                    <div>
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="flex-grow">
                       <h3 className="font-bold text-white text-lg group-hover/item:text-accent transition-colors">
                         {project.title}
                       </h3>
-                      <p className="text-sm text-neutral-400">{project.tags}</p>
+                      <p className="text-sm text-neutral-400 truncate">
+                        {project.introduction}
+                      </p>
                     </div>
-                    <div className="text-xs px-3 py-1 border border-neutral-700 rounded-full text-neutral-300 opacity-0 group-hover/item:opacity-100 transition-opacity">
+                    <div className="text-xs px-3 py-1 border border-neutral-700 rounded-full text-neutral-300 opacity-0 group-hover/item:opacity-100 transition-opacity flex-shrink-0">
                       Zobacz
                     </div>
                   </div>

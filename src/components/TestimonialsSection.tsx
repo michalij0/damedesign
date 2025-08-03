@@ -29,21 +29,26 @@ export default function TestimonialsSection() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-
-      const { data } = await supabase.from("testimonials").select("*").order("created_at", { ascending: false });
-      setTestimonials(data || []);
-      setLoading(false);
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        setUser(user);
+  
+        const { data } = await supabase.from("testimonials").select("*").order("created_at", { ascending: false });
+        setTestimonials(data || []);
+      } catch (error) {
+        console.error("Błąd pobierania danych: ", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData();
   }, [supabase]);
 
   const handleDelete = async () => {
     if (!testimonialToDelete) return;
-
+    
     const { error } = await supabase.from("testimonials").delete().eq("id", testimonialToDelete.id);
-
+    
     if (error) {
       addNotification(`Błąd: ${error.message}`, "error");
     } else {
@@ -115,7 +120,7 @@ export default function TestimonialsSection() {
                               {testimonial.name}
                             </cite>
                           </footer>
-                          <p>"{testimonial.text}"</p>
+                          <p className="break-words">&quot;{testimonial.text}&quot;</p>
                         </blockquote>
                       </li>
                     ))}
@@ -125,7 +130,7 @@ export default function TestimonialsSection() {
                 <div className="h-full flex items-center justify-center text-center border border-dashed border-neutral-800 rounded-xl">
                   <div>
                     <h3 className="text-xl font-bold text-neutral-400">Brak opinii do wyświetlenia.</h3>
-                    {user && <p className="text-neutral-500 mt-2">Kliknij "+", aby dodać pierwszą.</p>}
+                    {user && <p className="text-neutral-500 mt-2">Kliknij &quot;+&quot;, aby dodać pierwszą.</p>}
                   </div>
                 </div>
               )}

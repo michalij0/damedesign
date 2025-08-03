@@ -66,10 +66,6 @@ export default function ProjectClientPage({ project, nextProject, prevProject }:
                 </div>
               </div>
               <div
-                className="font-sans max-w-none mb-16 text-neutral-300 [&_p]:text-2xl [&_p]:leading-relaxed [&_p]:mb-6 [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:text-2xl [&_blockquote]:leading-relaxed [&_blockquote]:text-neutral-200"
-                dangerouslySetInnerHTML={{ __html: project.introduction }}
-              />
-              <div
                 className="prose prose-invert prose-2xl max-w-none prose-h2:font-druk-wide prose-h3:font-druk-wide prose-blockquote:border-accent prose-blockquote:text-neutral-200"
                 dangerouslySetInnerHTML={{ __html: project.content }}
               />
@@ -78,13 +74,13 @@ export default function ProjectClientPage({ project, nextProject, prevProject }:
           
           {/* Nowa, pełna sekcja nawigacji */}
           <section className="py-16 border-t border-neutral-800">
-            <div className="mx-auto max-w-7xl px-6 flex justify-between items-center">
+            <div className="mx-auto max-w-7xl px-6 flex justify-between items-center gap-8">
               {prevProject ? (
-                <Link href={`/portfolio/${prevProject.slug}`} className="group text-left">
+                <Link href={`/portfolio/${prevProject.slug}`} className="group text-left min-w-0">
                     <p className="text-sm text-neutral-400">Poprzedni projekt</p>
-                    <h3 className="text-3xl font-bold text-white group-hover:text-accent transition-colors flex items-center gap-2">
-                      <ArrowLeft size={24} className="text-neutral-500 group-hover:text-accent transition-colors" />
-                      {prevProject.title}
+                    <h3 className="text-3xl font-bold text-white group-hover:text-accent transition-colors flex items-center gap-2 break-words">
+                      <ArrowLeft size={24} className="text-neutral-500 group-hover:text-accent transition-colors flex-shrink-0" />
+                      <span>{prevProject.title}</span>
                     </h3>
                 </Link>
               ) : (
@@ -92,11 +88,11 @@ export default function ProjectClientPage({ project, nextProject, prevProject }:
               )}
 
               {nextProject && (
-                <Link href={`/portfolio/${nextProject.slug}`} className="group text-right">
+                <Link href={`/portfolio/${nextProject.slug}`} className="group text-right min-w-0">
                     <p className="text-sm text-neutral-400">Następny projekt</p>
-                    <h3 className="text-3xl font-bold text-white group-hover:text-accent transition-colors flex items-center gap-2">
-                      {nextProject.title}
-                      <ArrowRight size={24} className="text-neutral-500 group-hover:text-accent transition-colors" />
+                    <h3 className="text-3xl font-bold text-white group-hover:text-accent transition-colors flex items-center justify-end gap-2 break-words">
+                      <span>{nextProject.title}</span>
+                      <ArrowRight size={24} className="text-neutral-500 group-hover:text-accent transition-colors flex-shrink-0" />
                     </h3>
                 </Link>
               )}
