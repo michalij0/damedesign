@@ -18,7 +18,7 @@ export default function CookieBanner() {
   const handleAccept = () => {
     localStorage.setItem('cookie_consent', 'accepted');
     setShowBanner(false);
-    // Przeładuj stronę, aby aktywować skrypty analityczne
+    // Przeładuj stronę, aby aktywować skrypty analityczne, jeśli są dodawane warunkowo
     window.location.reload(); 
   };
 
@@ -31,13 +31,17 @@ export default function CookieBanner() {
     <AnimatePresence>
       {showBanner && (
         <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
+          initial={{ y: "100%" }}
+          animate={{ y: "0%" }}
+          exit={{ y: "100%" }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-4xl z-50 px-4"
+          // ---> ZMIANA 1: Ten kontener zajmuje się tylko pozycjonowaniem na dole ekranu.
+          // Dodajemy padding, aby baner nie dotykał krawędzi na małych ekranach.
+          className="fixed bottom-0 inset-x-0 z-50 p-4"
         >
-          <div className="p-4 bg-neutral-800/90 backdrop-blur-lg border border-neutral-700 rounded-xl shadow-lg flex flex-col md:flex-row items-center gap-4">
+          {/* ---> ZMIANA 2: Ten wewnętrzny div zajmuje się wyglądem i wyśrodkowaniem. */}
+          {/* `mx-auto` centruje go, a `max-w-4xl` ogranicza szerokość na dużych ekranach. */}
+          <div className="mx-auto max-w-4xl p-4 bg-neutral-800/90 backdrop-blur-lg border border-neutral-700 rounded-xl shadow-lg flex flex-col md:flex-row items-center gap-4">
             <div className="flex-shrink-0">
               <Cookie size={32} className="text-accent" />
             </div>
@@ -48,8 +52,8 @@ export default function CookieBanner() {
               </Link>.
             </p>
             <div className="flex-shrink-0 flex items-center gap-3">
-                <button onClick={handleDecline} className="px-4 py-2 text-sm text-neutral-300 hover:text-white">Odrzuć</button>
-                <button onClick={handleAccept} className="px-4 py-2 text-sm bg-accent text-black rounded-lg font-bold">Akceptuj</button>
+                <button onClick={handleDecline} className="px-4 py-2 text-sm text-neutral-300 hover:text-white transition-colors">Odrzuć</button>
+                <button onClick={handleAccept} className="px-4 py-2 text-sm bg-accent text-black rounded-lg font-bold transition-colors hover:bg-accent-muted">Akceptuj</button>
             </div>
           </div>
         </motion.div>
