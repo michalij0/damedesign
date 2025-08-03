@@ -4,9 +4,6 @@ import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-// ---> ZMIANA 1: Importujemy nasz nowy komponent Providers
-import { Providers } from "./providers";
-
 export const metadata: Metadata = {
   title: "DameDesign",
   description: "Portfolio i usługi projektowe.",
@@ -20,9 +17,7 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <body className={GeistSans.className}>
-        <Providers>
-          {children}
-        </Providers>
+        {children}
         <SpeedInsights />
       </body>
     </html>

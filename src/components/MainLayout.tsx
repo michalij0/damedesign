@@ -1,3 +1,4 @@
+// src/components/MainLayout.tsx
 "use client";
 
 import { usePathname } from "next/navigation";
@@ -11,7 +12,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import AdminNotifier from "./AdminNotifier";
 import CookieBanner from "./CookieBanner";
-import ProgressBar from "./ProgressBar"; // ---> ZMIANA: Dodajemy import ProgressBar
+import ProgressBar from "./ProgressBar";
+import { NotificationProvider } from "@/context/NotificationProvider"; // Wracamy do importu tutaj
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -54,8 +56,8 @@ export default function MainLayout({ children, serverUser, isMaintenanceMode }: 
   }
 
   return (
-    <>
-      {/* ---> ZMIANA: Opakowujemy WSZYSTKIE komponenty z `useSearchParams` w JEDEN Suspense */}
+    // Używamy NotificationProvider jako głównego "opakowania"
+    <NotificationProvider>
       <Suspense fallback={null}>
         <GoogleAnalytics />
         <ProgressBar />
@@ -68,6 +70,6 @@ export default function MainLayout({ children, serverUser, isMaintenanceMode }: 
       {user && <AdminNotifier />}
       <CookieBanner />
       <div id="portal-root"></div>
-    </>
+    </NotificationProvider>
   );
 }
