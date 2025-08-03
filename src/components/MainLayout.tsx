@@ -1,12 +1,11 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react"; // ---> ZMIANA: Dodano import Suspense
 import { createClient } from "@/utils/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import MaintenancePage from "./MaintenancePage";
 import GoogleAnalytics from "./GoogleAnalytics";
-// ---> ZMIANA: Usunęliśmy import NotificationProvider
 import Preloader from "./Preloader";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -55,14 +54,16 @@ export default function MainLayout({ children, serverUser, isMaintenanceMode }: 
 
   return (
     <>
-      <GoogleAnalytics />
-      {/* ---> ZMIANA: Usunęliśmy stąd <NotificationProvider> */}
+      {/* ---> ZMIANA: Opakowujemy GoogleAnalytics w Suspense, aby naprawić błąd builda */}
+      <Suspense fallback={null}>
+        <GoogleAnalytics />
+      </Suspense>
+      
       <Preloader />
       <Header />
       <main>{children}</main>
       <Footer />
       {user && <AdminNotifier />}
-      {/* ---> ZMIANA: Usunęliśmy stąd </NotificationProvider> */}
       <CookieBanner />
       <div id="portal-root"></div>
     </>
