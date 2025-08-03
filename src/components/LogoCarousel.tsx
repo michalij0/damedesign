@@ -10,7 +10,7 @@ import type { CloudinaryUploadWidgetResults } from "next-cloudinary";
 import { useNotification } from "@/context/NotificationProvider";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
-// Definiujemy typ danych dla logo, teraz z alt_text
+// Definiujemy typ danych dla logo
 interface Logo {
   id: number;
   name: string;
@@ -50,12 +50,13 @@ export default function LogoCarousel() {
       typeof results.info === "object" &&
       "secure_url" in results.info
     ) {
+      const info = results.info; // Lepsza praktyka
       const originalFilename =
-        (results.info as any).original_filename || "Nowe Logo";
+        (info as any).original_filename || "Nowe Logo";
       const newLogo = {
         name: originalFilename,
-        logo_url: results.info.secure_url,
-        alt_text: `Logo klienta: ${originalFilename}`, // Domyślny alt text
+        logo_url: info.secure_url,
+        alt_text: `Logo klienta: ${originalFilename}`,
       };
       const { data, error } = await supabase
         .from("logos")
@@ -86,14 +87,8 @@ export default function LogoCarousel() {
     setLogoToDelete(null);
   };
 
-  const MIN_CAROUSEL_ITEMS = 10;
-  let carouselLogos = [...logos];
-  while (
-    carouselLogos.length > 0 &&
-    carouselLogos.length < MIN_CAROUSEL_ITEMS
-  ) {
-    carouselLogos = [...carouselLogos, ...logos];
-  }
+  // ---> ZMIANA: Usunęliśmy całą logikę z pętlą 'while' i MIN_CAROUSEL_ITEMS.
+  // Jest ona niepotrzebna i powodowała problem.
 
   if (loading) {
     return <div className="h-24 bg-black" />;
@@ -122,10 +117,37 @@ export default function LogoCarousel() {
         )}
         {logos.length > 0 ? (
           <div className="group w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear_gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
+            {/* ---> ZMIANA: Dublujemy listę logotypów tutaj, aby stworzyć płynną pętlę */}
             <ul className="flex items-center justify-center animate-infinite-scroll group-hover:[animation-play-state:paused]">
-              {[...carouselLogos, ...carouselLogos].map((logo, index) => (
+              {logos.map((logo, index) => (
                 <li
                   key={`${logo.id}-${index}`}
+                  className="mx-12 flex-shrink-0 relative group/item"
+                >
+                  <Image
+                    src={logo.logo_url}
+                    alt={logo.alt_text || `Logo klienta ${logo.name}`}
+                    width={140}
+                    height={50}
+                    className="h-12 w-auto object-contain filter grayscale brightness-50 opacity-60 transition-all duration-300 hover:grayscale-0 hover:brightness-100 hover:opacity-100"
+                  />
+                  {user && (
+                    <button
+                      onClick={() => setLogoToDelete(logo)}
+                      className="absolute -top-2 -right-2 p-1 bg-red-600 rounded-full text-white opacity-0 group-hover/item:opacity-100 transition-opacity"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+            {/* ---> ZMIANA: Dodajemy drugą, identyczną listę, aby animacja była płynna.
+                 `aria-hidden` jest dla czytników ekranu, aby nie czytały tej samej listy dwa razy. */}
+            <ul className="flex items-center justify-center animate-infinite-scroll group-hover:[animation-play-state:paused]" aria-hidden="true">
+              {logos.map((logo, index) => (
+                <li
+                  key={`${logo.id}-duplicate-${index}`}
                   className="mx-12 flex-shrink-0 relative group/item"
                 >
                   <Image

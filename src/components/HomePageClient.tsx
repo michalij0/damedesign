@@ -93,7 +93,8 @@ export default function HomePageClient() {
                     Ilustracje
                 </h3>
                 <p className="mt-2 text-neutral-400 mb-6">
-                    Stwórzmy razem spersonalizowaną ilustrację.
+                    Stwórzmy razem spersonalizowaną ilustrację,
+                    która odda charakter Twojej marki.
                 </p>
                 <div className="relative w-full h-80 rounded-lg overflow-hidden shadow-lg mt-auto transition-transform duration-300 ease-in-out group-hover:rotate-0 -rotate-3">
                     <Image
