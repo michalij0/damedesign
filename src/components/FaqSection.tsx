@@ -145,7 +145,7 @@ export default function FaqSection() {
       {/* Tło bez nakładki, tylko zawartość się animuje */}
       <section 
         id="faq" 
-        className="relative py-16 sm:py-24 bg-cover bg-center"
+        className="relative py-16 sm:py-24 bg-cover bg-center bg-fixed"
         style={{ backgroundImage: "url('/img/bg_testim.png')" }}
       >
         {/* Tylko zawartość się animuje! */}
