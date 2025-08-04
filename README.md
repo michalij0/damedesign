@@ -17,7 +17,7 @@
 
 This is a modern, production-ready portfolio website built with Next.js 14 and TypeScript. It features a custom CMS for content management, responsive design, and optimized performance.
 
-Created as a showcase for web development skills and modern frontend architecture.
+Created as a showcase for Graphic portfolio.
 
 ## 🚀 Key Features
 
