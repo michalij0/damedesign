@@ -90,36 +90,30 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full px-4 sm:px-6 py-6 z-30 transition-all duration-300 ${
+        className={`fixed top-0 left-0 w-full px-4 sm:px-6 py-4 sm:py-6 z-30 transition-all duration-300 ${
           scrolled || isMenuOpen ? "bg-black/50 backdrop-blur-lg" : "bg-transparent"
         }`}
       >
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center">
             <Link href="/" onClick={handleLogoClick}>
               <Image
                 src="/img/logo.svg"
                 alt="DameDesign Logo"
                 width={140}
                 height={40}
-                className="h-8 w-auto flex-shrink-0"
+                className="h-6 sm:h-8 w-auto flex-shrink-0"
               />
             </Link>
-            
-            <div className="md:hidden">
-              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white z-40 relative">
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
           </div>
 
           <nav className="hidden md:block">
-            <ul className="flex items-center gap-8 font-inter">
+            <ul className="flex items-center gap-6 sm:gap-8 font-inter">
               {navLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className={`inline-block transition-all duration-300 hover:scale-105 text-base ${
+                    className={`inline-block transition-all duration-300 hover:scale-105 text-sm sm:text-base ${
                       getIsActive(link.href)
                         ? "text-accent"
                         : "text-neutral-400 hover:text-accent-muted"
@@ -131,6 +125,12 @@ export default function Header() {
               ))}
             </ul>
           </nav>
+
+          <div className="md:hidden">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white z-40 relative p-1">
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -140,16 +140,16 @@ export default function Header() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/90 backdrop-blur-lg z-20 pt-24 px-6 md:hidden"
+            className="fixed inset-0 bg-black/90 backdrop-blur-lg z-20 pt-20 sm:pt-24 px-6 md:hidden"
           >
-            <nav>
+            <nav className="flex items-center justify-center min-h-[calc(100vh-80px)]">
               <ul className="flex flex-col items-center gap-8 font-inter">
                 {navLinks.map((link) => (
                   <li key={link.name}>
                     <Link
                       href={link.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`inline-block text-2xl transition-colors duration-300 ${
+                      className={`inline-block text-2xl sm:text-3xl transition-colors duration-300 ${
                         getIsActive(link.href)
                           ? "text-accent"
                           : "text-neutral-300 hover:text-accent-muted"

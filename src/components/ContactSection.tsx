@@ -99,23 +99,23 @@ export default function ContactSection() {
       <AnimatePresence>
         {showSuccessPopup && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
-            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="bg-neutral-900 rounded-2xl p-8 text-center max-w-sm w-full shadow-2xl">
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="bg-neutral-900 rounded-2xl p-6 sm:p-8 text-center max-w-sm w-full mx-4 shadow-2xl">
               <CheckCircle size={48} className="mx-auto text-accent mb-4" />
-              <h3 className="text-2xl font-bold font-druk-wide text-white mb-2">Wiadomość wysłana!</h3>
-              <p className="text-neutral-400 mb-6">Dziękuję za kontakt. Skontaktuję się z Tobą najszybciej, jak to możliwe.</p>
-              <button onClick={() => setShowSuccessPopup(false)} className="bg-accent text-black font-bold px-6 py-2 rounded-lg hover:bg-accent-muted transition-colors">Zamknij</button>
+              <h3 className="text-xl sm:text-2xl font-bold font-druk-wide text-white mb-2">Wiadomość wysłana!</h3>
+              <p className="text-neutral-400 mb-6 text-sm sm:text-base">Dziękuję za kontakt. Skontaktuję się z Tobą najszybciej, jak to możliwe.</p>
+              <button onClick={() => setShowSuccessPopup(false)} className="bg-accent text-black font-bold px-6 py-2 rounded-lg hover:bg-accent-muted transition-colors text-sm sm:text-base">Zamknij</button>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <section id="kontakt" className="relative py-24 bg-cover bg-center bg-fixed" style={{ backgroundImage: "url('/img/bg_contact.png')" }}>
+      <section id="kontakt" className="relative py-16 sm:py-24 bg-cover bg-center bg-fixed" style={{ backgroundImage: "url('/img/bg_contact.png')" }}>
         <div className="absolute inset-0 bg-black/70" />
-        <div className="relative mx-auto max-w-7xl px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
-              <h2 className="text-5xl font-bold font-druk-wide leading-tight">Masz pomysł?<br />Porozmawiajmy.</h2>
-              <p className="mt-4 text-lg text-neutral-400">Wypełnij formularz lub napisz bezpośrednio na: <a href="mailto:kontakt@damedesign.pl" className="text-accent hover:underline">kontakt@damedesign.pl</a></p>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-druk-wide leading-tight">Masz pomysł?<br />Porozmawiajmy.</h2>
+              <p className="mt-4 text-base sm:text-lg text-neutral-400">Wypełnij formularz lub napisz bezpośrednio na: <a href="mailto:kontakt@damedesign.pl" className="text-accent hover:underline">kontakt@damedesign.pl</a></p>
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -151,16 +151,16 @@ export default function ContactSection() {
                   <ul className="space-y-2">
                     {files.map((file, index) => (
                       <li key={index} className="flex items-center justify-between bg-neutral-800/80 p-2 rounded-md text-sm">
-                        <span className="text-neutral-300 truncate">{file.name}</span>
+                        <span className="text-neutral-300 truncate max-w-[80%]">{file.name}</span>
                         <button type="button" onClick={() => removeFile(file.name)} className="text-neutral-500 hover:text-white"><X size={16} /></button>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
-              <div className="flex items-center gap-3">
+              <div className="flex items-start gap-3">
                 <input type="checkbox" id="privacy" checked={privacyAccepted} onChange={(e) => setPrivacyAccepted(e.target.checked)} className="sr-only peer" />
-                <label htmlFor="privacy" className="cursor-pointer flex items-center justify-center w-5 h-5 border-2 border-neutral-600 rounded-md peer-checked:bg-accent peer-checked:border-accent transition-colors">
+                <label htmlFor="privacy" className="cursor-pointer flex items-center justify-center w-5 h-5 border-2 border-neutral-600 rounded-md peer-checked:bg-accent peer-checked:border-accent transition-colors mt-0.5 flex-shrink-0">
                   <Check size={14} className={`text-black transition-opacity ${privacyAccepted ? 'opacity-100' : 'opacity-0'}`} />
                 </label>
                 <label htmlFor="privacy" className="text-sm text-neutral-400 cursor-pointer">
@@ -168,7 +168,7 @@ export default function ContactSection() {
                 </label>
               </div>
               <div className="flex justify-end">
-                <button type="submit" disabled={isSubmitting || !privacyAccepted} className="bg-accent text-black font-bold px-8 py-3 rounded-lg hover:bg-accent-muted transition-colors disabled:bg-neutral-600 disabled:cursor-not-allowed">
+                <button type="submit" disabled={isSubmitting || !privacyAccepted} className="bg-accent text-black font-bold px-6 sm:px-8 py-3 rounded-lg hover:bg-accent-muted transition-colors disabled:bg-neutral-600 disabled:cursor-not-allowed text-sm sm:text-base">
                   {isSubmitting ? "Wysyłanie..." : "Wyślij"}
                 </button>
               </div>
