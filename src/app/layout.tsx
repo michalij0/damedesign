@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 // Importujemy Providers i MainLayout
 import { Providers } from "./providers";
@@ -32,6 +33,7 @@ export default async function RootLayout({
           </MainLayout>
         </Providers>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
