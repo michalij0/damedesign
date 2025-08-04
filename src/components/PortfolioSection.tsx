@@ -61,38 +61,38 @@ export default function PortfolioSection() {
   }
 
   return (
-    <section id="portfolio-home" className="py-24 bg-black overflow-hidden">
-      <div className="mx-auto max-w-7xl px-6 mb-12 flex justify-between items-center">
+    <section id="portfolio-home" className="py-16 sm:py-24 bg-black overflow-hidden">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 mb-8 sm:mb-12 flex justify-between items-center">
         <div>
-          <h2 className="text-4xl font-bold font-druk-wide mb-2">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-druk-wide mb-2">
             Wybrane projekty
           </h2>
-          <p className="text-neutral-400">Sprawdź moje ostatnie prace.</p>
+          <p className="text-sm sm:text-base text-neutral-400">Sprawdź moje ostatnie prace.</p>
         </div>
         <Link
           href="/portfolio"
-          className="group flex-shrink-0 w-14 h-14 border border-neutral-700 rounded-full flex items-center justify-center hover:bg-accent hover:border-accent transition-colors"
+          className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 border border-neutral-700 rounded-full flex items-center justify-center hover:bg-accent hover:border-accent transition-colors"
         >
-          <ArrowRight className="text-neutral-400 group-hover:text-black transition-colors" />
+          <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 text-neutral-400 group-hover:text-black transition-colors" />
         </Link>
       </div>
 
       {loading ? (
-        <div className="h-72 flex items-center justify-center text-neutral-500">
+        <div className="h-48 sm:h-72 flex items-center justify-center text-neutral-500">
           Ładowanie projektów...
         </div>
       ) : projects.length > 0 ? (
         <div
-          className="group w-full inline-flex flex-nowrap [mask-image:_linear_gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]"
+          className="group w-full inline-flex flex-nowrap [mask-image:_linear-gradient(to_right,transparent_0,_black_40px,_black_calc(100%-40px),transparent_100%)] sm:[mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]"
         >
           <ul className="flex items-stretch justify-center animate-infinite-scroll group-hover:[animation-play-state:paused]">
             {[...carouselProjects, ...carouselProjects].map((project, index) => (
-              <li key={`${project.id}-${index}`} className="mx-4 flex-shrink-0">
+              <li key={`${project.id}-${index}`} className="mx-2 sm:mx-4 flex-shrink-0">
                 <Link
                   href={`/portfolio/${project.slug}`}
-                  className="block w-[350px] group/item"
+                  className="block w-64 sm:w-80 md:w-[350px] group/item"
                 >
-                  <div className="w-full h-64 bg-neutral-800 rounded-xl overflow-hidden mb-4">
+                  <div className="w-full h-40 sm:h-48 md:h-64 bg-neutral-800 rounded-xl overflow-hidden mb-3 sm:mb-4">
                     <SafeImage
                       src={project.thumbnail_url}
                       alt={project.title}
@@ -101,16 +101,16 @@ export default function PortfolioSection() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover/item:scale-105"
                     />
                   </div>
-                  <div className="flex justify-between items-start gap-4">
+                  <div className="flex justify-between items-start gap-2 sm:gap-4">
                     <div className="flex-grow">
-                      <h3 className="font-bold text-white text-lg group-hover/item:text-accent transition-colors">
+                      <h3 className="font-bold text-white text-base sm:text-lg group-hover/item:text-accent transition-colors">
                         {project.title}
                       </h3>
-                      <p className="text-sm text-neutral-400 truncate">
+                      <p className="text-xs sm:text-sm text-neutral-400 truncate">
                         {project.introduction}
                       </p>
                     </div>
-                    <div className="text-xs px-3 py-1 border border-neutral-700 rounded-full text-neutral-300 opacity-0 group-hover/item:opacity-100 transition-opacity flex-shrink-0">
+                    <div className="text-[10px] sm:text-xs px-2 py-1 sm:px-3 sm:py-1 border border-neutral-700 rounded-full text-neutral-300 opacity-0 group-hover/item:opacity-100 transition-opacity flex-shrink-0">
                       Zobacz
                     </div>
                   </div>
@@ -120,11 +120,11 @@ export default function PortfolioSection() {
           </ul>
         </div>
       ) : (
-        <div className="mx-auto max-w-7xl px-6 text-center py-16 border border-dashed border-neutral-800 rounded-xl">
-          <h3 className="text-xl font-bold text-neutral-400">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 text-center py-12 sm:py-16 border border-dashed border-neutral-800 rounded-xl">
+          <h3 className="text-lg sm:text-xl font-bold text-neutral-400">
             Brak projektów do wyświetlenia.
           </h3>
-          <p className="text-neutral-500 mt-2">
+          <p className="text-sm sm:text-base text-neutral-500 mt-2">
             {user
               ? "Dodaj swój pierwszy projekt, klikajac 'Dodaj projekt' w podstronie Portfolio"
               : "Wkrótce pojawią się tutaj nowe prace."}

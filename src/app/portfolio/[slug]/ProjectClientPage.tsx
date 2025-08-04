@@ -22,14 +22,14 @@ interface NavProjectData {
 export default function ProjectClientPage({ project, nextProject, prevProject }: { project: ProjectData, nextProject: NavProjectData | null, prevProject: NavProjectData | null }) {
   return (
     <>
-      <Link href="/portfolio" className="fixed top-1/2 left-2 sm:left-4 z-20 -translate-y-1/2">
+      <Link href="/portfolio" className="fixed top-20 left-4 sm:top-24 sm:left-6 z-20">
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
-            className="w-10 h-10 sm:w-12 sm:h-12 bg-neutral-800/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-accent hover:text-black transition-colors"
+            className="w-8 h-8 sm:w-10 sm:h-10 bg-neutral-800/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-accent hover:text-black transition-colors"
           >
-              <ArrowLeft size={16} className="sm:size-20" />
+              <ArrowLeft size={14} className="sm:size-16" />
           </motion.div>
       </Link>
 
