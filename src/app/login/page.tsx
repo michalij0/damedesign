@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useNotification } from "@/context/NotificationProvider";
 import type { User } from "@supabase/supabase-js";
 import AdminToolbar from "@/components/AdminToolbar";
-import MainLayout from '@/components/MainLayout';
+// UWAGA: Usunięto import MainLayout
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -27,6 +27,7 @@ export default function LoginPage() {
       setUser(user);
 
       if (user) {
+        // Dane isMaintenanceMode są pobierane w komponencie klienckim
         const { data: settings } = await supabase.from("site_settings").select("is_maintenance_mode").single();
         setIsMaintenanceMode(settings?.is_maintenance_mode || false);
       }
@@ -64,9 +65,11 @@ export default function LoginPage() {
   };
 
   if (loading) {
+    // UWAGA: Nie opakowujemy w MainLayout.
     return <main className="flex min-h-screen flex-col items-center justify-center bg-black" />;
   }
-
+  
+  // UWAGA: Nie opakowujemy w MainLayout.
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-black">
       <div className="w-full max-w-sm p-8 space-y-6 bg-neutral-900 rounded-2xl shadow-lg">
