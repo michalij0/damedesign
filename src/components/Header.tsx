@@ -70,10 +70,7 @@ export default function Header() {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
       
-      // ---> POCZĄTEK POPRAWKI: Dodana linia do czyszczenia adresu URL <---
-      // Modyfikuje historię przeglądarki, usuwając hash, bez przeładowania strony.
       window.history.replaceState(null, '', pathname);
-      // ---> KONIEC POPRAWKI <---
 
       setActiveSection("");
     }
@@ -95,24 +92,17 @@ export default function Header() {
         }`}
       >
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/" onClick={handleLogoClick}>
-              <Image
-                src="/img/logo.svg"
-                alt="DameDesign Logo"
-                width={140}
-                height={40}
-                className="h-8 w-auto flex-shrink-0"
-              />
-            </Link>
-            
-            <div className="md:hidden">
-              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white z-40 relative">
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
-          </div>
-
+          {/* ---> ZMIANA: Usunięto dodatkowy div, logo jest pierwszym elementem */}
+          <Link href="/" onClick={handleLogoClick}>
+            <Image
+              src="/img/logo.svg"
+              alt="DameDesign Logo"
+              width={140}
+              height={40}
+              className="h-8 w-auto flex-shrink-0"
+            />
+          </Link>
+          
           <nav className="hidden md:block">
             <ul className="flex items-center gap-8 font-inter">
               {navLinks.map((link) => (
@@ -131,6 +121,13 @@ export default function Header() {
               ))}
             </ul>
           </nav>
+
+          {/* ---> ZMIANA: Hamburger jest teraz ostatnim elementem, wypchniętym na prawo przez "justify-between" */}
+          <div className="md:hidden">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white z-40 relative">
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </header>
 
