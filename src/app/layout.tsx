@@ -1,3 +1,4 @@
+// src/app/layout.tsx
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
@@ -21,7 +22,26 @@ export default async function RootLayout({
 }>) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const isMaintenanceMode = process.env.MAINTENANCE_MODE === 'true';
+  
+  // Pobieramy status trybu WIP z bazy danych
+  let isMaintenanceMode = false;
+  try {
+    const { data: settings, error } = await supabase
+      .from('site_settings')
+      .select('is_maintenance_mode')
+      .eq('singleton_check', true) // <-- To jest kluczowe!
+      .single();
+    
+    if (error) {
+      console.error("Błąd zapytania Supabase:", error);
+      throw error;
+    }
+    
+    isMaintenanceMode = settings?.is_maintenance_mode ?? false;
+  } catch (error) {
+    console.error("Błąd pobierania ustawień WIP:", error);
+    isMaintenanceMode = process.env.MAINTENANCE_MODE === 'true'; // Fallback
+  }
 
   return (
     <html lang="pl">
