@@ -24,7 +24,7 @@ export default function Footer() {
           </h2>
           <Link
             href="/#kontakt"
-            className="mt-4 inline-block rounded-full bg-accent px-5 py-3 font-inter text-sm font-medium text-black"
+            className="mt-4 inline-block rounded-full bg-accent px-5 py-3 font-inter text-sm font-medium text-black hover:bg-accent-muted transition-colors"
           >
             Napisz do mnie &rarr;
           </Link>
@@ -34,13 +34,19 @@ export default function Footer() {
             <h3 className="font-inter text-sm text-neutral-400">Strony</h3>
             <ul className="mt-4 space-y-2">
               <li>
-                <Link href="/portfolio">Portfolio</Link>
+                <Link href="/portfolio" className="text-white hover:text-accent transition-colors">
+                  Portfolio
+                </Link>
               </li>
               <li>
-                <Link href="/#o-mnie">O mnie</Link>
+                <Link href="/#o-mnie" className="text-white hover:text-accent transition-colors">
+                  O mnie
+                </Link>
               </li>
               <li>
-                <Link href="/#kontakt">Kontakt</Link>
+                <Link href="/#kontakt" className="text-white hover:text-accent transition-colors">
+                  Kontakt
+                </Link>
               </li>
             </ul>
           </div>
@@ -48,17 +54,17 @@ export default function Footer() {
             <h3 className="font-inter text-sm text-neutral-400">Sociale</h3>
             <ul className="mt-4 space-y-2">
               <li>
-                <a href="https://www.behance.net/damedsgn" target="_blank">
+                <a href="https://www.behance.net/damedsgn" target="_blank" rel="noopener noreferrer" className="text-white hover:text-accent transition-colors">
                   Behance
                 </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/dame.dsgn/" target="_blank">
+                <a href="https://www.instagram.com/dame.dsgn/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-accent transition-colors">
                   Instagram
                 </a>
               </li>
               <li>
-                <a href="https://www.linkedin.com/in/damian-tomasik-5a3967204/" target="_blank">
+                <a href="https://www.linkedin.com/in/damian-tomasik-5a3967204/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-accent transition-colors">
                   LinkedIn
                 </a>
               </li>
