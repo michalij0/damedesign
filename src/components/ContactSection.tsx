@@ -112,7 +112,7 @@ export default function ContactSection() {
       <section id="kontakt" className="relative py-16 sm:py-24 bg-cover bg-center bg-fixed" style={{ backgroundImage: "url('/img/bg_contact.png')" }}>
         <div className="absolute inset-0 bg-black/70" />
         
-        {/* Tylko zawartość się animuje! */}
+        {/* Animacja zawartości */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

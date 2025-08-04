@@ -72,7 +72,6 @@ export default function ProjectClientPage({ project, nextProject, prevProject }:
             </div>
           </article>
           
-          {/* Nowa, pełna sekcja nawigacji */}
           <section className="py-8 sm:py-12 md:py-16 border-t border-neutral-800">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-8 md:gap-12">

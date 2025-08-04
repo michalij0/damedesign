@@ -126,7 +126,6 @@ export default function PortfolioPage() {
         <section className="py-24">
           <div className="mx-auto max-w-7xl px-6">
             <div className="relative text-center mb-16">
-              {/* ---> ZMIANA: Usunięto gradient, dodano klasę text-accent */}
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-mona-sans text-accent">Portfolio</h1>
               <p className="text-base sm:text-lg text-neutral-400 mt-4 max-w-2xl mx-auto">Zbiór moich wybranych prac. Każdy projekt to nowa historia i unikalne wyzwanie.</p>
               {user && (

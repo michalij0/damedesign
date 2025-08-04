@@ -133,9 +133,7 @@ export default function AdminNotifier() {
                   <button onClick={() => setSelectedSubmission(null)} className="text-neutral-400 hover:text-white"><X size={20} /></button>
                 </header>
                 <div className="p-6 overflow-y-auto space-y-6">
-                  {/* ---> POCZĄTEK POPRAWKI <--- */}
                   <p className="text-white whitespace-pre-wrap break-words">{selectedSubmission.message}</p>
-                  {/* ---> KONIEC POPRAWKI <--- */}
 
                   {selectedSubmission.attachment_urls && selectedSubmission.attachment_urls.length > 0 && (
                       <div>

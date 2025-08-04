@@ -26,7 +26,6 @@ export default async function RootLayout({
   return (
     <html lang="pl">
       <body className={`${GeistSans.className} bg-black text-neutral-200`}>
-        {/* ---> ZMIANA: Przenosimy <Providers> na zewnątrz <MainLayout> */}
         <Providers>
           <MainLayout serverUser={user} isMaintenanceMode={isMaintenanceMode}>
             {children}

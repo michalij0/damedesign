@@ -54,7 +54,6 @@ const UrlModal = ({ isOpen, onClose, onSubmit, type }: { isOpen: boolean; onClos
             {isOpen && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
                     <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} className="bg-neutral-900 rounded-2xl p-6 w-full max-w-md shadow-2xl">
-                        {/* Usunięto zagnieżdżony formularz */}
                         <div>
                             <h3 className="text-lg font-bold text-white mb-4">{typeLabels[type as keyof typeof typeLabels].title}</h3>
                             <input type="text" value={url} onChange={(e) => setUrl(e.target.value)} placeholder={typeLabels[type as keyof typeof typeLabels].placeholder} className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-2 text-white mb-4" autoFocus onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)} />
