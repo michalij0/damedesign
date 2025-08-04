@@ -1,12 +1,8 @@
-// src/app/page.tsx
 import type { Metadata } from "next";
 import HomePageClient from "@/components/HomePageClient";
+// UWAGA: Importy dla MainLayout i Supabase zostały usunięte
+// bo logika przeniosła się do pliku layout.tsx
 
-// ---> ZMIANA: Dodajemy importy dla MainLayout i Supabase
-import MainLayout from '@/components/MainLayout';
-import { createClient } from '@/utils/supabase/server';
-
-// Twoje metadane (pozostają bez zmian)
 export const metadata: Metadata = {
   title: "DameDesign - Projekty Graficzne Dopasowane do Twoich Potrzeb",
   description: "Profesjonalne portfolio grafika. Specjalizuję się w brandingu, projektach digital, DTP i ilustracjach. Zobacz moje prace i stwórzmy razem coś niesamowitego.",
@@ -54,17 +50,12 @@ export const metadata: Metadata = {
   },
 };
 
-// ---> ZMIANA: Zmieniamy funkcję na `async`, aby pobrać dane na serwerze
-export default async function Home() {
-  // ---> ZMIANA: Dodajemy logikę pobierania danych potrzebnych dla MainLayout
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  const isMaintenanceMode = process.env.MAINTENANCE_MODE === 'true';
-
-  // ---> ZMIANA: Opakowujemy komponent kliencki w MainLayout, przekazując pobrane dane
+// UWAGA: Funkcja Home nie musi już być asynchroniczna, ponieważ nie pobiera danych serwerowych
+// i nie renderuje MainLayout.
+export default function Home() {
+  // UWAGA: Usunięto logikę pobierania danych, bo jest w pliku layout.tsx
+  // Nie opakowujemy już w MainLayout, bo jest w głównym layoucie.
   return (
-    <MainLayout serverUser={user} isMaintenanceMode={isMaintenanceMode}>
-      <HomePageClient />
-    </MainLayout>
+    <HomePageClient />
   );
 }

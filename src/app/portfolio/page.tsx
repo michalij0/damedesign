@@ -13,9 +13,9 @@ import { FilterDropdown } from "@/components/FilterDropdown";
 import { TagFilterDropdown } from "@/components/TagFilterDropdown";
 import { motion, AnimatePresence } from "framer-motion";
 import SafeImage from "@/components/SafeImage";
-// ---> ZMIANA: Dodajemy import MainLayout
-import MainLayout from '@/components/MainLayout';
 
+// UWAGA: MainLayout nie jest już importowany w tym pliku,
+// ponieważ opakowanie nastąpi w pliku layout.tsx na poziomie routingu.
 
 interface Project {
   id: number;
@@ -28,7 +28,6 @@ interface Project {
   year: string;
 }
 
-// ---> ZMIANA: Zmieniamy na funkcję asynchroniczną, aby pobrać dane użytkownika na serwerze
 export default function PortfolioPage() {
   const [user, setUser] = useState<User | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -113,10 +112,15 @@ export default function PortfolioPage() {
     }
     setProjectToDelete(null);
   };
-  
-  // ---> ZMIANA: Zmieniamy return tak, aby cała zawartość była pojedynczym "dzieckiem" dla MainLayout
+
+  if (loading) {
+    // UWAGA: Nie opakowujemy w MainLayout.
+    return <main className="min-h-screen bg-black" />;
+  }
+
+  // UWAGA: Nie opakowujemy w MainLayout.
   return (
-    <MainLayout>
+    <>
       <main className="pt-24 bg-black">
         <section className="py-24">
           <div className="mx-auto max-w-7xl px-6">
@@ -198,6 +202,6 @@ export default function PortfolioPage() {
         </section>
       </main>
       <DeleteConfirmationModal isOpen={!!projectToDelete} onClose={() => setProjectToDelete(null)} onConfirm={handleDelete} projectName={projectToDelete?.title || ""} />
-    </MainLayout>
+    </>
   );
 }
