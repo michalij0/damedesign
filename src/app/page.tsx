@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import HomePageClient from "@/components/HomePageClient";
-// UWAGA: Importy dla MainLayout i Supabase zostały usunięte
-// bo logika przeniosła się do pliku layout.tsx
 
 export const metadata: Metadata = {
   title: "DameDesign - Projekty Graficzne Dopasowane do Twoich Potrzeb",
@@ -18,7 +16,7 @@ export const metadata: Metadata = {
     siteName: "DameDesign",
     images: [
       {
-        url: 'https://damedesign.pl/og-image.png',
+        url: 'https://damedesign.pl/img/og-image.png',
         width: 1200,
         height: 630,
         alt: 'DameDesign - Projekty Graficzne',
@@ -33,7 +31,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'DameDesign - Profesjonalne Projekty Graficzne',
     description: 'Portfolio grafika specjalizującego się w brandingu, DTP i ilustracjach.',
-    images: ['https://damedesign.pl/og-image.png'],
+    images: ['https://damedesign.pl/img/og-image.png'],
   },
 
   // Instrukcje dla robotów Google
@@ -50,11 +48,7 @@ export const metadata: Metadata = {
   },
 };
 
-// UWAGA: Funkcja Home nie musi już być asynchroniczna, ponieważ nie pobiera danych serwerowych
-// i nie renderuje MainLayout.
 export default function Home() {
-  // UWAGA: Usunięto logikę pobierania danych, bo jest w pliku layout.tsx
-  // Nie opakowujemy już w MainLayout, bo jest w głównym layoucie.
   return (
     <HomePageClient />
   );

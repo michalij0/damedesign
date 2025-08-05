@@ -90,20 +90,20 @@ export default function AboutSection() {
           </div>
           <div className="text-left">
             <div className="flex items-center gap-3 sm:gap-4 mb-6">
-              <h2 className="text-3xl sm:text-4xl font-bold font-mona-sans">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mona-sans">
                 {aboutData.heading}
               </h2>
               {user && (
                 <Link
                   href="/admin/edit-about"
-                  className="p-2 bg-neutral-800/80 backdrop-blur-sm rounded-full text-white hover:bg-accent hover:text-black transition-colors flex-shrink-0"
+                  className="p-1.5 bg-neutral-800/80 backdrop-blur-sm rounded-full text-white hover:bg-accent hover:text-black transition-colors flex-shrink-0"
                 >
-                  <Pencil size={16} />
+                  <Pencil size={14} />
                 </Link>
               )}
             </div>
             <div
-              className="space-y-4 text-base sm:text-lg text-neutral-300"
+              className="space-y-3 text-sm sm:text-base text-neutral-300"
               dangerouslySetInnerHTML={{
                 __html: aboutData.description.replace(/\n/g, "<br />"),
               }}

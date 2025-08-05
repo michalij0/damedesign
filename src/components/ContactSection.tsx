@@ -1,7 +1,5 @@
 "use client";
-
 import { useState } from "react";
-import AnimatedSection from "./AnimatedSection";
 import { UploadCloud, X, CheckCircle, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/utils/supabase/client";
@@ -111,7 +109,6 @@ export default function ContactSection() {
 
       <section id="kontakt" className="relative py-16 sm:py-24 bg-cover bg-center bg-fixed" style={{ backgroundImage: "url('/img/bg_contact.png')" }}>
         <div className="absolute inset-0 bg-black/70" />
-        
         {/* Animacja zawartości */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -127,15 +124,15 @@ export default function ContactSection() {
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               <div>
                 <label htmlFor="email" className="sr-only">Twój email</label>
-                <input type="email" name="email" id="email" required placeholder="Twój email" className="w-full bg-neutral-800/80 border border-neutral-700 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-accent text-sm sm:text-base" />
+                <input type="email" name="email" id="email" required placeholder="Twój email" className="w-full bg-neutral-800/80 border border-neutral-700 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-accent text-sm" />
               </div>
               <div>
                 <label htmlFor="subject" className="sr-only">Tytuł</label>
-                <input type="text" name="subject" id="subject" required placeholder="Tytuł wiadomości" className="w-full bg-neutral-800/80 border border-neutral-700 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-accent text-sm sm:text-base" />
+                <input type="text" name="subject" id="subject" required placeholder="Tytuł wiadomości" className="w-full bg-neutral-800/80 border border-neutral-700 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-accent text-sm" />
               </div>
               <div>
                 <label htmlFor="message" className="sr-only">Wiadomość</label>
-                <textarea name="message" id="message" required rows={4} placeholder="Twoja wiadomość..." className="w-full bg-neutral-800/80 border border-neutral-700 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-accent text-sm sm:text-base"></textarea>
+                <textarea name="message" id="message" required rows={4} placeholder="Twoja wiadomość..." className="w-full bg-neutral-800/80 border border-neutral-700 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-accent text-sm"></textarea>
               </div>
               <div>
                 <CldUploadWidget 
@@ -144,10 +141,10 @@ export default function ContactSection() {
                   onUploadAdded={() => setIsUploading(true)}
                 >
                   {({ open }) => (
-                    <button type="button" onClick={() => open()} className="cursor-pointer w-full flex flex-col items-center justify-center border-2 border-dashed border-neutral-700 rounded-lg p-4 sm:p-6 text-center transition-colors bg-neutral-900/80 hover:bg-neutral-800/80 hover:border-accent">
-                      <UploadCloud size={24} className="sm:size-32 text-neutral-500 mb-2" />
-                      <span className="text-neutral-400 text-sm sm:text-base">Załącz inspiracje</span>
-                      <span className="text-neutral-500 text-xs sm:text-sm mt-1">{isUploading ? "Przesyłanie..." : "Przeciągnij i upuść lub kliknij"}</span>
+                    <button type="button" onClick={() => open()} className="cursor-pointer w-full flex flex-col items-center justify-center border-2 border-dashed border-neutral-700 rounded-lg p-4 text-center transition-colors bg-neutral-900/80 hover:bg-neutral-800/80 hover:border-accent">
+                      <UploadCloud size={20} className="text-neutral-500 mb-2" />
+                      <span className="text-neutral-400 text-sm">Załącz inspiracje</span>
+                      <span className="text-neutral-500 text-xs mt-1">{isUploading ? "Przesyłanie..." : "Przeciągnij i upuść lub kliknij"}</span>
                     </button>
                   )}
                 </CldUploadWidget>
@@ -158,26 +155,26 @@ export default function ContactSection() {
                   <ul className="space-y-2">
                     {files.map((file, index) => (
                       <li key={index} className="flex items-center justify-between bg-neutral-800/80 p-2 rounded-md text-sm">
-                        <span className="text-neutral-300 truncate max-w-[70%] sm:max-w-[80%]">{file.name}</span>
+                        <span className="text-neutral-300 truncate max-w-[70%]">{file.name}</span>
                         <button type="button" onClick={() => removeFile(file.name)} className="text-neutral-500 hover:text-white p-1">
-                          <X size={14} className="sm:size-16" />
+                          <X size={14} />
                         </button>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
-              <div className="flex items-start gap-2 sm:gap-3">
+              <div className="flex items-start gap-2">
                 <input type="checkbox" id="privacy" checked={privacyAccepted} onChange={(e) => setPrivacyAccepted(e.target.checked)} className="sr-only peer" />
-                <label htmlFor="privacy" className="cursor-pointer flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 border-2 border-neutral-600 rounded-md peer-checked:bg-accent peer-checked:border-accent transition-colors mt-1 flex-shrink-0">
-                  <Check size={12} className={`sm:size-14 text-black transition-opacity ${privacyAccepted ? 'opacity-100' : 'opacity-0'}`} />
+                <label htmlFor="privacy" className="cursor-pointer flex items-center justify-center w-4 h-4 border-2 border-neutral-600 rounded-md peer-checked:bg-accent peer-checked:border-accent transition-colors mt-0.5 flex-shrink-0">
+                  <Check size={12} className={`text-black transition-opacity ${privacyAccepted ? 'opacity-100' : 'opacity-0'}`} />
                 </label>
-                <label htmlFor="privacy" className="text-xs sm:text-sm text-neutral-400 cursor-pointer">
+                <label htmlFor="privacy" className="text-xs text-neutral-400 cursor-pointer">
                   Akceptuję <Link href="/polityka-prywatnosci" className="underline hover:text-accent">politykę prywatności</Link>.
                 </label>
               </div>
               <div className="flex justify-end">
-                <button type="submit" disabled={isSubmitting || !privacyAccepted} className="bg-accent text-black font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg hover:bg-accent-muted transition-colors disabled:bg-neutral-600 disabled:cursor-not-allowed text-sm sm:text-base">
+                <button type="submit" disabled={isSubmitting || !privacyAccepted} className="bg-accent text-black font-bold px-6 py-2 rounded-lg hover:bg-accent-muted transition-colors disabled:bg-neutral-600 disabled:cursor-not-allowed text-sm">
                   {isSubmitting ? "Wysyłanie..." : "Wyślij"}
                 </button>
               </div>
