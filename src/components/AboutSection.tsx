@@ -79,12 +79,12 @@ export default function AboutSection() {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
 
-          <div className="relative w-full aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden shadow-lg">
+          <div className="relative w-full aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden shadow-lg max-w-sm mx-auto">
             <SafeImage
               src={aboutData.image_url || "/img/hero.png"}
               alt="Zdjęcie autora strony"
               fill
-              sizes="(max-width: 768px) 90vw, (max-width: 1024px) 50vw, 40vw"
+              sizes="(max-width: 768px) 90vw, (max-width: 1024px) 40vw, 30vw"
               className="object-cover w-full h-full"
             />
           </div>
@@ -96,9 +96,9 @@ export default function AboutSection() {
               {user && (
                 <Link
                   href="/admin/edit-about"
-                  className="p-1.5 bg-neutral-800/80 backdrop-blur-sm rounded-full text-white hover:bg-accent hover:text-black transition-colors flex-shrink-0"
+                  className="p-1 bg-neutral-800/80 backdrop-blur-sm rounded-full text-white hover:bg-accent hover:text-black transition-colors flex-shrink-0"
                 >
-                  <Pencil size={14} />
+                  <Pencil size={12} />
                 </Link>
               )}
             </div>
