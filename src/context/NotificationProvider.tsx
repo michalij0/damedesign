@@ -1,4 +1,4 @@
-// src/context/NotificationProvider.tsx
+
 "use client";
 
 import {
@@ -7,7 +7,7 @@ import {
   useState,
   ReactNode,
   useEffect,
-  Suspense, // <-- Ważny import
+  Suspense, 
 } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -39,8 +39,7 @@ const icons = {
   info: <Info className="text-blue-500" />,
 };
 
-// ---> ZMIANA: Stworzyliśmy mały komponent-pomocnik, który zajmuje się logiką URL
-// Tylko ten mały komponent będzie "zawieszany" przez Suspense.
+
 const NotificationUrlHandler = ({ addNotification }: { addNotification: (message: string, type: NotificationType) => void}) => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -52,14 +51,12 @@ const NotificationUrlHandler = ({ addNotification }: { addNotification: (message
 
     if (message && type) {
       addNotification(message, type);
-      // Czyści URL, aby powiadomienie nie pojawiało się po odświeżeniu
       router.replace(pathname, { scroll: false });
     }
-    // Uruchom ten efekt tylko raz, gdy komponent się załaduje
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
-  return null; // Ten komponent nic nie renderuje
+  return null; 
 }
 
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
@@ -80,7 +77,6 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <NotificationContext.Provider value={{ addNotification }}>
-      {/* ---> ZMIANA: Opakowujemy nasz nowy komponent w Suspense */}
       <Suspense fallback={null}>
         <NotificationUrlHandler addNotification={addNotification} />
       </Suspense>

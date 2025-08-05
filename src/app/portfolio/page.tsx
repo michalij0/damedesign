@@ -15,8 +15,7 @@ import { TagFilterDropdown } from "@/components/TagFilterDropdown";
 import { motion, AnimatePresence } from "framer-motion";
 import SafeImage from "@/components/SafeImage";
 
-// UWAGA: MainLayout nie jest już importowany w tym pliku,
-// ponieważ opakowanie nastąpi w pliku layout.tsx na poziomie routingu.
+
 
 interface Project {
   id: number;
@@ -115,11 +114,11 @@ export default function PortfolioPage() {
   };
 
   if (loading) {
-    // UWAGA: Nie opakowujemy w MainLayout.
+    
     return <main className="min-h-screen bg-black" />;
   }
 
-  // UWAGA: Nie opakowujemy w MainLayout.
+  
   return (
     <>
       <main className="pt-24 bg-black">

@@ -43,7 +43,7 @@ export default function ContactSection() {
     const subject = formData.get('subject') as string;
     const message = formData.get('message') as string;
 
-    // Krok 1: Zapisz dane w Supabase
+    // ZApisywanie danych w supabase
     const { error: supabaseError } = await supabase.from('contact_submissions').insert({
         email,
         subject,
@@ -57,7 +57,7 @@ export default function ContactSection() {
       return;
     }
 
-    // ---> POCZĄTEK ZMIANY: Krok 2 - Wyślij email przez nasze API
+ // Wysyłanie maila przez API
     try {
       const emailPayload = {
         email,
@@ -78,7 +78,7 @@ export default function ContactSection() {
         throw new Error('Wysyłka maila nie powiodła się.');
       }
       
-      // Wszystko się udało, pokaż popup sukcesu
+
       setShowSuccessPopup(true);
       setFiles([]);
       form.reset();
@@ -89,7 +89,7 @@ export default function ContactSection() {
     } finally {
       setIsSubmitting(false);
     }
-    // ---> KONIEC ZMIANY
+  
   };
 
   return (

@@ -13,7 +13,6 @@ import Image from "next/image";
 export default function HomePageClient() {
   return (
     <main>
-      {/* Sekcja Hero z własnym, nieruchomym tłem */}
       <section
         className="relative flex h-screen w-full flex-col items-center justify-center text-center"
         style={{
@@ -46,7 +45,6 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* Kontener na resztę sekcji - teraz bez własnego tła */}
       <div className="relative">
         <div className="absolute bottom-full h-96 w-full bg-gradient-to-t from-black to-transparent" />
         

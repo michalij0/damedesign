@@ -15,7 +15,6 @@ const ContentEditor = dynamic(() => import("@/components/ContentEditor"), {
   loading: () => <div className="w-full min-h-[300px] bg-neutral-900 border border-neutral-700 rounded-lg flex items-center justify-center text-neutral-500">Ładowanie edytora...</div>,
 });
 
-// ---> ZMIANA 1: Definiujemy typ, dopuszczając `null` dla pól, które mogą być puste w bazie
 interface Project {
   id: number;
   title: string;
@@ -32,7 +31,6 @@ interface Project {
 export default function EditProjectForm({ project }: { project: Project }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ---> ZMIANA 2: Przy inicjalizacji stanu, zamieniamy ewentualny `null` na pusty string `''`
   const [title, setTitle] = useState(project.title || '');
   const [tags, setTags] = useState((project.tags || '').replace(/ • /g, ', ')); 
   const [category, setCategory] = useState(project.category || '');

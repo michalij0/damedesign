@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     const { email, subject, message, attachments } = await request.json();
 
-    // Utwórz transporter używając danych SMTP ze zmiennych środowiskowych
+    
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT),
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
     const formattedSubject = `[F] ${subject} | ${email}`;
 
-    // Stwórz treść maila w HTML dla lepszego formatowania
+    // Tworzenie maila w HTML
     const htmlBody = `
       <h2>Nowa wiadomość z formularza kontaktowego</h2>
       <p><strong>Od:</strong> ${email}</p>

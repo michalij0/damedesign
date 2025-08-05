@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Wrench } from 'lucide-react'; // Zmieniono ikonę
+import { Wrench } from 'lucide-react'; 
 
 export default function MaintenancePage() {
   return (

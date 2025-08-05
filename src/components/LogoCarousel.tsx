@@ -25,7 +25,6 @@ const LogoItem = ({ logo, user, onSetLogoToDelete }: { logo: Logo, user: User | 
       alt={logo.alt_text || `Logo klienta ${logo.name}`}
       width={140}
       height={50}
-      // ---> ZMIANA: Poprawiamy `group-hover` na `group-hover/item`, aby podświetlać tylko jedno logo
       className="h-12 w-auto object-contain filter grayscale brightness-50 opacity-60 transition-all duration-300 group-hover/item:grayscale-0 group-hover/item:brightness-100 group-hover/item:opacity-100"
     />
     {user && (
@@ -39,7 +38,6 @@ const LogoItem = ({ logo, user, onSetLogoToDelete }: { logo: Logo, user: User | 
   </li>
 );
 
-// Reszta komponentu LogoCarousel pozostaje bez zmian...
 export default function LogoCarousel() {
   const [user, setUser] = useState<User | null>(null);
   const [logos, setLogos] = useState<Logo[]>([]);

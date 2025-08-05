@@ -70,10 +70,7 @@ export default function Header() {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
       
-      // ---> POCZĄTEK POPRAWKI: Dodana linia do czyszczenia adresu URL <---
-      // Modyfikuje historię przeglądarki, usuwając hash, bez przeładowania strony.
       window.history.replaceState(null, '', pathname);
-      // ---> KONIEC POPRAWKI <---
 
       setActiveSection("");
     }

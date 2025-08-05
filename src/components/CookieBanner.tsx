@@ -18,7 +18,7 @@ export default function CookieBanner() {
   const handleAccept = () => {
     localStorage.setItem('cookie_consent', 'accepted');
     setShowBanner(false);
-    // Przeładuj stronę, aby aktywować skrypty analityczne, jeśli są dodawane warunkowo
+    // Przeładuj stronę, aby aktywować skrypty analityczne
     window.location.reload(); 
   };
 
@@ -47,8 +47,6 @@ export default function CookieBanner() {
                 polityce prywatności
               </Link>.
             </p>
-            {/* ---> POCZĄTEK POPRAWKI <--- */}
-            {/* Ten kontener teraz inaczej układa przyciski na różnych ekranach */}
             <div className="flex-shrink-0 w-full md:w-auto flex flex-col-reverse md:flex-row gap-3">
               <button 
                 onClick={handleDecline} 
@@ -63,7 +61,6 @@ export default function CookieBanner() {
                 Akceptuj
               </button>
             </div>
-            {/* ---> KONIEC POPRAWKI <--- */}
           </div>
         </motion.div>
       )}

@@ -9,7 +9,7 @@ interface Project {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://damedesign.pl"; // Poprawiony URL
+  const baseUrl = "https://damedesign.pl"; 
 
   try {
     // Pobieramy dane z Supabase

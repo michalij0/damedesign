@@ -21,7 +21,7 @@ export default function ProgressBar() {
     NProgress.start();
     const timer = setTimeout(() => {
       NProgress.done();
-    }, 500); // Upewnij się, że pasek zawsze się zamyka
+    }, 500); 
 
     return () => {
       clearTimeout(timer);

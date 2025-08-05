@@ -13,7 +13,6 @@ import Footer from "./Footer";
 import AdminNotifier from "./AdminNotifier";
 import CookieBanner from "./CookieBanner";
 import ProgressBar from "./ProgressBar";
-// Usunęliśmy import NotificationProvider, bo jest już globalnie
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -56,7 +55,7 @@ export default function MainLayout({ children, serverUser, isMaintenanceMode }: 
   }
 
   return (
-    // Usunęliśmy stąd opakowanie <NotificationProvider>
+
     <>
       <Suspense fallback={null}>
         <GoogleAnalytics />

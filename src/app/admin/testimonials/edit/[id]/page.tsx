@@ -25,16 +25,14 @@ export default function EditTestimonialPage() {
   const params = useParams();
   const supabase = createClient();
   const { addNotification } = useNotification();
-  // Pobieramy id z parametrów, może być stringiem, tablicą lub undefined
+  
   const { id } = params;
 
   useEffect(() => {
-    // ---> POCZĄTEK KLUCZOWEJ ZMIANY <---
-    // Jeśli nie ma id (np. przy pierwszym renderowaniu), nie rób nic i poczekaj.
     if (!id) {
       return;
     }
-    // ---> KONIEC KLUCZOWEJ ZMIANY <---
+  
 
     const fetchData = async () => {
       // Sprawdzamy autoryzację użytkownika
@@ -45,8 +43,7 @@ export default function EditTestimonialPage() {
       }
       setUser(user);
 
-      // Pobieramy dane opinii DOPIERO GDY MAMY PEWNOŚĆ, ŻE `id` ISTNIEJE
-      // Używamy `Array.isArray(id) ? id[0] : id` na wypadek, gdyby `id` było tablicą (catch-all routes)
+
       const testimonialId = Array.isArray(id) ? id[0] : id;
       const { data: testimonialData, error } = await supabase
         .from("testimonials")

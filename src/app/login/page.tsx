@@ -65,11 +65,11 @@ export default function LoginPage() {
   };
 
   if (loading) {
-    // UWAGA: Nie opakowujemy w MainLayout.
+    
     return <main className="flex min-h-screen flex-col items-center justify-center bg-black" />;
   }
   
-  // UWAGA: Nie opakowujemy w MainLayout.
+  
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-black">
       <div className="w-full max-w-sm p-8 space-y-6 bg-neutral-900 rounded-2xl shadow-lg">

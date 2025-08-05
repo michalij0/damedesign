@@ -16,14 +16,13 @@ export function createClient() {
           try {
             cookieStore.set({ name, value, ...options })
           } catch (error) {
-            // The `set` method was called from a Server Component.
           }
         },
         remove(name: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value: '', ...options })
           } catch (error) {
-            // The `delete` method was called from a Server Component.
+
           }
         },
       },

@@ -8,7 +8,7 @@ export default function Preloader() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Używamy localStorage, aby zapamiętać wizytę na stałe
+    // localStorage
     const hasVisited = localStorage.getItem("hasVisitedDameDesign");
 
     if (hasVisited) {
@@ -16,11 +16,11 @@ export default function Preloader() {
       return;
     }
 
-    // Jeśli to pierwsza wizyta, pokaż animację
+   
     const timer = setTimeout(() => {
       setIsLoading(false);
       localStorage.setItem("hasVisitedDameDesign", "true");
-    }, 2500); // Czas trwania animacji
+    }, 2500); 
 
     return () => clearTimeout(timer);
   }, []);

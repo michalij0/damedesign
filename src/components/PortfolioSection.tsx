@@ -8,12 +8,12 @@ import { createClient } from "@/utils/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import SafeImage from "./SafeImage";
 
-// Definiujemy typ danych, które przychodzą z Supabase
+
 interface Project {
   id: number;
   title: string;
   tags: string;
-  introduction: string; // Dodane pole
+  introduction: string; 
   thumbnail_url: string;
   slug: string;
 }
@@ -53,7 +53,7 @@ export default function PortfolioSection() {
     fetchData();
   }, [supabase]);
 
-  // Inteligentne duplikowanie projektów, aby karuzela zawsze była pełna
+
   const MIN_CAROUSEL_ITEMS = 6;
   let carouselProjects = [...projects];
   while (carouselProjects.length > 0 && carouselProjects.length < MIN_CAROUSEL_ITEMS) {

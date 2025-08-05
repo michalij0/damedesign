@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client"; // Poprawiony import
+import { createClient } from "@/utils/supabase/client"; 
 import { useRouter } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
@@ -22,7 +22,7 @@ export default function NewTestimonialPage() {
   const [avatarUrl, setAvatarUrl] = useState("");
 
   const router = useRouter();
-  const supabase = createClient(); // Używamy poprawnej funkcji
+  const supabase = createClient(); 
   const { addNotification } = useNotification();
 
   useEffect(() => {

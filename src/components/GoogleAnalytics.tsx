@@ -4,7 +4,6 @@ import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { useEffect, useState } from "react";
 
-// Deklarujemy dla TypeScript, że funkcja gtag będzie istniała w obiekcie window
 declare global {
   interface Window {
     gtag: (

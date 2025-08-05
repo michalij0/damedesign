@@ -142,13 +142,12 @@ export default function FaqSection() {
         />
       </Head>
       
-      {/* Tło bez nakładki, tylko zawartość się animuje */}
       <section 
         id="faq" 
         className="relative py-16 sm:py-24 bg-cover bg-center bg-fixed"
         style={{ backgroundImage: "url('/img/bg_testim.png')" }}
       >
-        {/* Tylko zawartość się animuje! */}
+        {/* Animacja zawartości */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

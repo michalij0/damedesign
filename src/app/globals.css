@@ -4,10 +4,10 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: -3rem; /* 160px - Jeszcze bardziej zwiększony margines */
+  scroll-padding-top: -3rem; 
 }
 
-/* --- Kod animacji karuzeli --- */
+
 @layer utilities {
   @keyframes infinite-scroll {
     from {
@@ -19,6 +19,6 @@ html {
   }
 
   .animate-infinite-scroll {
-    animation: infinite-scroll 55s linear infinite; /* ZMIANA: Wolniejsza animacja */
+    animation: infinite-scroll 55s linear infinite; 
   }
 }
