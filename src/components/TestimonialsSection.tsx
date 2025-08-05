@@ -92,8 +92,8 @@ export default function TestimonialsSection() {
                   </h2>
                 </div>
                 {user && (
-                  <Link href="/admin/testimonials/new" className="group flex-shrink-0 inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-neutral-800 hover:bg-accent transition-colors">
-                    <PlusCircle size={12} className="sm:size-16 text-neutral-400 group-hover:text-black" />
+                  <Link href="/admin/testimonials/new" className="group flex-shrink-0 inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-neutral-800 hover:bg-accent transition-colors">
+                    <PlusCircle size={8} className="sm:size-12 text-neutral-400 group-hover:text-black" />
                   </Link>
                 )}
               </div>
@@ -105,12 +105,12 @@ export default function TestimonialsSection() {
                     {[...carouselTestimonials, ...carouselTestimonials].map((testimonial, index) => (
                       <li key={`${testimonial.id}-${index}`} className="flex-shrink-0 py-6 sm:py-8 group/item relative">
                         {user && (
-                          <div className="absolute top-6 sm:top-8 right-0 flex items-center gap-2 opacity-0 group-hover/item:opacity-100 transition-opacity z-20">
-                            <Link href={`/admin/testimonials/edit/${testimonial.id}`} className="p-0 sm:p-1 bg-neutral-800/80 rounded-full text-white hover:bg-accent hover:text-black transition-colors transform hover:scale-110">
-                              <Pencil size={4} className="sm:size-12" />
+                          <div className="absolute top-6 sm:top-8 right-0 flex items-center gap-1 opacity-0 group-hover/item:opacity-100 transition-opacity z-20">
+                            <Link href={`/admin/testimonials/edit/${testimonial.id}`} className="w-5 h-5 sm:w-6 sm:h-6 p-0.5 bg-neutral-800/80 rounded-full text-white hover:bg-accent hover:text-black transition-colors transform hover:scale-110 flex items-center justify-center">
+                              <Pencil size={2} className="sm:size-8" />
                             </Link>
-                            <button onClick={() => setTestimonialToDelete(testimonial)} className="p-0 sm:p-1 bg-neutral-800/80 rounded-full text-white hover:bg-red-600 transition-colors transform hover:scale-110">
-                              <Trash2 size={4} className="sm:size-12" />
+                            <button onClick={() => setTestimonialToDelete(testimonial)} className="w-5 h-5 sm:w-6 sm:h-6 p-0.5 bg-neutral-800/80 rounded-full text-white hover:bg-red-600 transition-colors transform hover:scale-110 flex items-center justify-center">
+                              <Trash2 size={2} className="sm:size-8" />
                             </button>
                           </div>
                         )}
