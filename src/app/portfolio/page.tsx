@@ -167,6 +167,24 @@ export default function PortfolioPage() {
               <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {filteredAndSortedProjects.map((project) => (
                   <motion.div layout key={project.id} className="group relative">
+                    {/* Przyciski edycji i usuwania dla zalogowanych użytkowników */}
+                    {user && (
+                      <div className="absolute top-4 right-4 flex gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <Link 
+                          href={`/portfolio/${project.slug}/edit`} 
+                          className="p-2 bg-neutral-800/80 backdrop-blur-sm rounded-full text-white hover:bg-accent hover:text-black transition-colors"
+                        >
+                          <Pencil size={16} />
+                        </Link>
+                        <button 
+                          onClick={() => setProjectToDelete(project)} 
+                          className="p-2 bg-neutral-800/80 backdrop-blur-sm rounded-full text-white hover:bg-red-600 transition-colors"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    )}
+                    
                     <Link href={`/portfolio/${project.slug}`} className="block">
                       <div className="overflow-hidden rounded-xl mb-4 aspect-video bg-neutral-800 border-2 border-transparent group-hover:border-accent transition-colors duration-300">
                         <SafeImage src={project.thumbnail_url || "/img/placeholder.png"} alt={project.title} width={800} height={450} className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
