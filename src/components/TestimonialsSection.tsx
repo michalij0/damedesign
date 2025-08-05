@@ -71,13 +71,11 @@ export default function TestimonialsSection() {
 
   return (
     <>
-      {/* Tło jest stałe od razu, tylko zawartość się animuje */}
       <section 
         id="testimonials" 
         className="relative py-16 sm:py-24 bg-cover bg-center bg-fixed"
         style={{ backgroundImage: "url('/img/bg_testim.png')" }}
       >
-        {/* Zawartość animowana */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -108,11 +106,11 @@ export default function TestimonialsSection() {
                       <li key={`${testimonial.id}-${index}`} className="flex-shrink-0 py-6 sm:py-8 group/item relative">
                         {user && (
                           <div className="absolute top-6 sm:top-8 right-0 flex items-center gap-2 opacity-0 group-hover/item:opacity-100 transition-opacity z-20">
-                            <Link href={`/admin/testimonials/edit/${testimonial.id}`} className="p-1.5 sm:p-2 bg-neutral-800/80 rounded-full text-white hover:bg-accent hover:text-black transition-colors transform hover:scale-110">
-                              <Pencil size={14} className="sm:size-16" />
+                            <Link href={`/admin/testimonials/edit/${testimonial.id}`} className="p-1.5 sm:p-2 lg:p-1.5 bg-neutral-800/80 rounded-full text-white hover:bg-accent hover:text-black transition-colors transform hover:scale-110">
+                              <Pencil size={14} className="sm:size-16 lg:size-14" />
                             </Link>
-                            <button onClick={() => setTestimonialToDelete(testimonial)} className="p-1.5 sm:p-2 bg-neutral-800/80 rounded-full text-white hover:bg-red-600 transition-colors transform hover:scale-110">
-                              <Trash2 size={14} className="sm:size-16" />
+                            <button onClick={() => setTestimonialToDelete(testimonial)} className="p-1.5 sm:p-2 lg:p-1.5 bg-neutral-800/80 rounded-full text-white hover:bg-red-600 transition-colors transform hover:scale-110">
+                              <Trash2 size={14} className="sm:size-16 lg:size-14" />
                             </button>
                           </div>
                         )}
