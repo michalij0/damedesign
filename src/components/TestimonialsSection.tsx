@@ -65,10 +65,6 @@ export default function TestimonialsSection() {
     carouselTestimonials = [...carouselTestimonials, ...testimonials];
   }
 
-  // --- NOWE: Przygotowanie elementów karuzeli dla efektu nieskończoności ---
-  // Tworzymy tablicę z co najmniej 2 kopiami elementów, aby animacja mogła się zapętlić płynnie
-  const carouselItemsForDisplay = carouselTestimonials.length > 0 ? [...carouselTestimonials, ...carouselTestimonials] : [];
-
   if (loading) {
     return <section id="testimonials" className="py-16 sm:py-24 bg-black" />;
   }
@@ -97,29 +93,28 @@ export default function TestimonialsSection() {
                 </div>
                 {user && (
                   <Link href="/admin/testimonials/new" className="group flex-shrink-0 inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-neutral-800 hover:bg-accent transition-colors">
-                    {/* Poprawiony rozmiar ikony */}
-                    <PlusCircle size={16} className="text-neutral-400 group-hover:text-black" /> 
+                    <PlusCircle size={16} className="text-neutral-400 group-hover:text-black" />
                   </Link>
                 )}
               </div>
             </div>
             <div className="lg:col-span-2 h-[400px] sm:h-[500px] lg:h-[60vh] overflow-hidden">
               {testimonials.length > 0 ? (
-                <div className="group w-full h-full">
-                  {/* --- ZMIENIONE: Kontener karuzeli --- */}
-                  <div className="flex flex-col h-full animate-infinite-scroll-vertical group-hover:[animation-play-state:paused]">
-                    {/* --- ZMIENIONE: Mapowanie przygotowanej wcześniej tablicy --- */}
-                    {carouselItemsForDisplay.map((testimonial, index) => (
-                      // --- ZMIENIONE: Klucz dla unikalności w podwójnej liście ---
-                      <div key={`${testimonial.id}-${index}`} className="flex-shrink-0 py-6 sm:py-8 group/item relative"> 
+                // --- ZMIENIONE: Cała sekcja karuzeli ---
+                <div
+                  className="group w-full h-full inline-flex flex-nowrap"
+                >
+                  <ul className="flex flex-col items-stretch justify-center animate-infinite-scroll-vertical group-hover:[animation-play-state:paused]">
+                    {/* --- ZMIENIONE: [testimonial, ...testimonial] jak w PortfolioSection --- */}
+                    {[...carouselTestimonials, ...carouselTestimonials].map((testimonial, index) => (
+                      <li key={`${testimonial.id}-${index}`} className="flex-shrink-0 py-6 sm:py-8 group/item relative">
                         {user && (
                           <div className="absolute top-6 sm:top-8 right-0 flex items-center gap-1 opacity-0 group-hover/item:opacity-100 transition-opacity z-20">
-                            {/* Poprawione rozmiary przycisków i ikon */}
                             <Link href={`/admin/testimonials/edit/${testimonial.id}`} className="w-6 h-6 p-1 bg-neutral-800/80 rounded-full text-white hover:bg-accent hover:text-black transition-colors transform hover:scale-110 flex items-center justify-center">
-                              <Pencil size={12} /> {/* Poprawiony rozmiar ikony */}
+                              <Pencil size={12} />
                             </Link>
                             <button onClick={() => setTestimonialToDelete(testimonial)} className="w-6 h-6 p-1 bg-neutral-800/80 rounded-full text-white hover:bg-red-600 transition-colors transform hover:scale-110 flex items-center justify-center">
-                              <Trash2 size={12} /> {/* Poprawiony rozmiar ikony */}
+                              <Trash2 size={12} />
                             </button>
                           </div>
                         )}
@@ -138,10 +133,11 @@ export default function TestimonialsSection() {
                           </footer>
                           <p className="break-words leading-relaxed">&quot;{testimonial.text}&quot;</p>
                         </blockquote>
-                      </div>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
+                // --- KONIEC ZMIAN ---
               ) : (
                 <div className="h-full flex items-center justify-center text-center border border-dashed border-neutral-800 rounded-xl p-4 sm:p-8">
                   <div>
