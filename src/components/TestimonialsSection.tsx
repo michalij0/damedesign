@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import AnimatedSection from "./AnimatedSection";
+// import AnimatedSection from "./AnimatedSection"; // Wykomentowane, bo nie jest używane
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import type { User } from "@supabase/supabase-js";
@@ -31,9 +31,9 @@ export default function TestimonialsSection() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        setUser(user);
-    
+        const { data: { user: userData } } = await supabase.auth.getUser(); // Zmienione nazewnictwo zmiennej
+        setUser(userData);
+
         const { data } = await supabase.from("testimonials").select("*").order("created_at", { ascending: false });
         setTestimonials(data || []);
       } catch (error) {
@@ -65,6 +65,10 @@ export default function TestimonialsSection() {
     carouselTestimonials = [...carouselTestimonials, ...testimonials];
   }
 
+  // --- NOWE: Przygotowanie elementów karuzeli dla efektu nieskończoności ---
+  // Tworzymy tablicę z co najmniej 2 kopiami elementów, aby animacja mogła się zapętlić płynnie
+  const carouselItemsForDisplay = carouselTestimonials.length > 0 ? [...carouselTestimonials, ...carouselTestimonials] : [];
+
   if (loading) {
     return <section id="testimonials" className="py-16 sm:py-24 bg-black" />;
   }
@@ -93,7 +97,8 @@ export default function TestimonialsSection() {
                 </div>
                 {user && (
                   <Link href="/admin/testimonials/new" className="group flex-shrink-0 inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-neutral-800 hover:bg-accent transition-colors">
-                    <PlusCircle size={8} className="sm:size-12 text-neutral-400 group-hover:text-black" />
+                    {/* Poprawiony rozmiar ikony */}
+                    <PlusCircle size={16} className="text-neutral-400 group-hover:text-black" /> 
                   </Link>
                 )}
               </div>
@@ -101,16 +106,20 @@ export default function TestimonialsSection() {
             <div className="lg:col-span-2 h-[400px] sm:h-[500px] lg:h-[60vh] overflow-hidden">
               {testimonials.length > 0 ? (
                 <div className="group w-full h-full">
-                  <ul className="flex flex-col h-full animate-infinite-scroll-vertical group-hover:[animation-play-state:paused]">
-                    {[...carouselTestimonials, ...carouselTestimonials].map((testimonial, index) => (
-                      <li key={`${testimonial.id}-${index}`} className="flex-shrink-0 py-6 sm:py-8 group/item relative">
+                  {/* --- ZMIENIONE: Kontener karuzeli --- */}
+                  <div className="flex flex-col h-full animate-infinite-scroll-vertical group-hover:[animation-play-state:paused]">
+                    {/* --- ZMIENIONE: Mapowanie przygotowanej wcześniej tablicy --- */}
+                    {carouselItemsForDisplay.map((testimonial, index) => (
+                      // --- ZMIENIONE: Klucz dla unikalności w podwójnej liście ---
+                      <div key={`${testimonial.id}-${index}`} className="flex-shrink-0 py-6 sm:py-8 group/item relative"> 
                         {user && (
                           <div className="absolute top-6 sm:top-8 right-0 flex items-center gap-1 opacity-0 group-hover/item:opacity-100 transition-opacity z-20">
-                            <Link href={`/admin/testimonials/edit/${testimonial.id}`} className="w-5 h-5 sm:w-6 sm:h-6 p-0.5 bg-neutral-800/80 rounded-full text-white hover:bg-accent hover:text-black transition-colors transform hover:scale-110 flex items-center justify-center">
-                              <Pencil size={2} className="sm:size-8" />
+                            {/* Poprawione rozmiary przycisków i ikon */}
+                            <Link href={`/admin/testimonials/edit/${testimonial.id}`} className="w-6 h-6 p-1 bg-neutral-800/80 rounded-full text-white hover:bg-accent hover:text-black transition-colors transform hover:scale-110 flex items-center justify-center">
+                              <Pencil size={12} /> {/* Poprawiony rozmiar ikony */}
                             </Link>
-                            <button onClick={() => setTestimonialToDelete(testimonial)} className="w-5 h-5 sm:w-6 sm:h-6 p-0.5 bg-neutral-800/80 rounded-full text-white hover:bg-red-600 transition-colors transform hover:scale-110 flex items-center justify-center">
-                              <Trash2 size={2} className="sm:size-8" />
+                            <button onClick={() => setTestimonialToDelete(testimonial)} className="w-6 h-6 p-1 bg-neutral-800/80 rounded-full text-white hover:bg-red-600 transition-colors transform hover:scale-110 flex items-center justify-center">
+                              <Trash2 size={12} /> {/* Poprawiony rozmiar ikony */}
                             </button>
                           </div>
                         )}
@@ -129,9 +138,9 @@ export default function TestimonialsSection() {
                           </footer>
                           <p className="break-words leading-relaxed">&quot;{testimonial.text}&quot;</p>
                         </blockquote>
-                      </li>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               ) : (
                 <div className="h-full flex items-center justify-center text-center border border-dashed border-neutral-800 rounded-xl p-4 sm:p-8">

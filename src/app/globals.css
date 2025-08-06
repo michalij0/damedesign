@@ -21,4 +21,9 @@ html {
   .animate-infinite-scroll {
     animation: infinite-scroll 55s linear infinite; 
   }
+
+  .animate-infinite-scroll-vertical {
+  animation: infinite-scroll-vertical 25s linear infinite;
+  /* Możesz dostosować czas trwania (25s) */
+ }
 }
