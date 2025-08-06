@@ -31,6 +31,6 @@ html {
   }
 
   .animate-infinite-scroll-vertical {
-    animation: infinite-scroll-vertical 25s linear infinite;
+    animation: infinite-scroll-vertical 45s linear infinite;
   }
 }
