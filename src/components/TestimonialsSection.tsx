@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-// import AnimatedSection from "./AnimatedSection"; // Wykomentowane, bo nie jest używane
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import type { User } from "@supabase/supabase-js";
@@ -31,7 +29,7 @@ export default function TestimonialsSection() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: { user: userData } } = await supabase.auth.getUser(); // Zmienione nazewnictwo zmiennej
+        const { data: { user: userData } } = await supabase.auth.getUser();
         setUser(userData);
 
         const { data } = await supabase.from("testimonials").select("*").order("created_at", { ascending: false });
@@ -101,11 +99,8 @@ export default function TestimonialsSection() {
             <div className="lg:col-span-2 h-[400px] sm:h-[500px] lg:h-[60vh] overflow-hidden">
               {testimonials.length > 0 ? (
                 // --- ZMIENIONE: Cała sekcja karuzeli ---
-                <div
-                  className="group w-full h-full inline-flex flex-nowrap"
-                >
+                <div className="group w-full h-full inline-flex flex-col flex-nowrap">
                   <ul className="flex flex-col items-stretch justify-center animate-infinite-scroll-vertical group-hover:[animation-play-state:paused]">
-                    {/* --- ZMIENIONE: [testimonial, ...testimonial] jak w PortfolioSection --- */}
                     {[...carouselTestimonials, ...carouselTestimonials].map((testimonial, index) => (
                       <li key={`${testimonial.id}-${index}`} className="flex-shrink-0 py-6 sm:py-8 group/item relative">
                         {user && (

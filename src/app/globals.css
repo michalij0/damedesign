@@ -21,7 +21,6 @@ html {
     animation: infinite-scroll 55s linear infinite; 
   }
 
-  /* --- POPRAWIONE: Pełna definicja animacji dla karuzeli pionowej --- */
   @keyframes infinite-scroll-vertical {
     0% {
       transform: translateY(0);
@@ -33,7 +32,5 @@ html {
 
   .animate-infinite-scroll-vertical {
     animation: infinite-scroll-vertical 25s linear infinite;
-    /* Możesz dostosować czas trwania (25s) */
   }
-  /* --- KONIEC POPRAWKI --- */
 }
