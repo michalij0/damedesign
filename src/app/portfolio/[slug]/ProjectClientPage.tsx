@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 interface ProjectData {
   title: string;
@@ -20,6 +21,21 @@ interface NavProjectData {
 }
 
 export default function ProjectClientPage({ project, nextProject, prevProject }: { project: ProjectData, nextProject: NavProjectData | null, prevProject: NavProjectData | null }) {
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+    };
+  }, []);
+
   return (
     <>
       <Link href="/portfolio" className="fixed top-20 left-4 sm:top-24 sm:left-6 z-20">
@@ -38,7 +54,7 @@ export default function ProjectClientPage({ project, nextProject, prevProject }:
           className="relative flex h-screen w-full flex-col items-center justify-center text-center"
           style={{
             backgroundImage: `url('${project.main_image_url}')`,
-            backgroundAttachment: "fixed",
+            backgroundAttachment: isDesktop ? "fixed" : "scroll",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
