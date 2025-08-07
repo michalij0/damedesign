@@ -100,7 +100,7 @@ export default function ContactSection() {
             <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="bg-neutral-900 rounded-2xl p-6 sm:p-8 text-center max-w-sm w-full mx-4 shadow-2xl">
               <CheckCircle size={48} className="mx-auto text-accent mb-4" />
               <h3 className="text-xl sm:text-2xl font-bold font-druk-wide text-white mb-2">Wiadomość wysłana!</h3>
-              <p className="text-neutral-400 mb-6 text-sm sm:text-base">Dziękuję za kontakt. Skontaktuję się z Tobą najszybciej, jak to możliwe.</p>
+              <p className="text-neutral-400 mb-6 text-sm sm:text-base">Dziękuję za kontakt.<br />Skontaktuję się z Tobą najszybciej, jak to możliwe.</p>
               <button onClick={() => setShowSuccessPopup(false)} className="bg-accent text-black font-bold px-6 py-2 rounded-lg hover:bg-accent-muted transition-colors text-sm sm:text-base">Zamknij</button>
             </motion.div>
           </motion.div>
