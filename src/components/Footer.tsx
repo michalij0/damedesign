@@ -78,7 +78,7 @@ export default function Footer() {
           Created with ❤️ by{" "}
           <button
             onClick={handleCopy}
-            className="font-medium text-white transition-colors hover:text-accent focus:outline-none"
+            className="font-medium text-current transition-colors hover:text-accent focus:outline-none"
           >
             {copied ? "Skopiowano tag Discord!" : "Michalij"}
           </button>
